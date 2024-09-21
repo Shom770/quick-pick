@@ -14,7 +14,7 @@ export default function Home() {
           </p>
           <Link
             key="Choose an Event"
-            href="/create-event"
+            href="/event/create"
             className="flex flex-row gap-2 items-center justify-center w-full rounded-lg px-3 py-2 bg-blue-600 text-[#0d111b] text-lg font-bold mt-6 hover:bg-blue-500"
           > 
             <p>Choose an Event</p>
