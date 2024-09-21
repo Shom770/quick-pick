@@ -12,6 +12,10 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      boxShadow: {
+        weakBlue: '0 0 100px 20px rgba(37, 99, 235, 0.25)',
+        strongBlue: '0 0 100px 20px rgba(37, 99, 235, 0.5)'
+      }
     },
   },
   plugins: [],
