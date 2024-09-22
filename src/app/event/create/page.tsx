@@ -57,19 +57,21 @@ export default function Page() {
                         </div>
                     </div>
                     <div className="flex items-center justify-center my-4 w-full h-[52.5vh] rounded-xl bg-slate-800">
-                        <div className="grid grid-cols-3 lg:grid-cols-6 w-full h-full p-12 gap-4 overflow-y-auto">
-                            {
-                                teamsInEvent.map((value) => 
-                                    <TeamPill key={value} teamNumber={value} teamName="The Blair Robot Project" />
-                                )
-                            }
-                            {
-                                teamNumberEntered && (
-                                    <div className="flex items-center justify-center w-40 h-14 bg-blue-600/[0.1] border-2 border-blue-600/50 border-dashed rounded-2xl">
-                                        <h1 className={`${rethinkSans.className} font-extrabold text-xl text-white/75`}>{teamNumberEntered}</h1>
-                                    </div> 
-                                )
-                            }
+                        <div className="w-full h-full p-12">
+                            <div className="grid grid-cols-3 lg:grid-cols-6 w-full h-full gap-4 overflow-y-auto">
+                                {
+                                    teamsInEvent.map((value) => 
+                                        <TeamPill key={value} teamNumber={value} teamName="The Blair Robot Project" />
+                                    )
+                                }
+                                {
+                                    teamNumberEntered && (
+                                        <div className="flex items-center justify-center w-40 h-14 bg-blue-600/[0.1] border-2 border-blue-600/50 border-dashed rounded-2xl">
+                                            <h1 className={`${rethinkSans.className} font-extrabold text-xl text-white/75`}>{teamNumberEntered}</h1>
+                                        </div> 
+                                    )
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
