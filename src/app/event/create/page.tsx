@@ -6,26 +6,33 @@ import { rethinkSans } from "@/app/ui/fonts";
 import Link from "next/link";
 import { useState } from "react";
 import TeamPill from "@/app/ui/event/team-pill";
+import teams from "@/app/data/teams.json";
 
 export default function Page() {
     const onTeamNumberEntered = ((event: React.KeyboardEvent<HTMLInputElement>) => {
         const parsedTeamNumber = parseInt(teamNumberEntered);
 
-        if (event.key == 'Enter' && !Number.isNaN(parsedTeamNumber) && teamsInEvent.indexOf(parsedTeamNumber) == -1) {
+        if (
+            event.key == 'Enter'
+            && !Number.isNaN(parsedTeamNumber) 
+            && teamsInEvent.indexOf(parsedTeamNumber) == -1
+            && parsedTeamNumber.toString() in teams
+        ) {
             setTeams([...teamsInEvent, parseInt(teamNumberEntered)]);
             setTeamNumber('');
         }
     });
 
     const [teamNumberEntered, setTeamNumber] = useState('');
-    const [teamsInEvent, setTeams] = useState<number[]>([449, 4099, 5804, 2363, 10005, 449, 449, 4099, 5804, 2363, 10005, 449, 449, 4099, 5804, 2363, 10005, 449, 449, 4099, 5804, 2363, 10005, 449, 449, 4099, 5804, 2363, 10005, 449, 449, 4099, 5804, 2363, 10005]);
+    const [teamsInEvent, setTeams] = useState<number[]>([]);
+    const numberOfRows = teamsInEvent.length < 36 ? "grid-rows-6" : "";
 
     return (
         <div className="flex items-center justify-center w-screen h-screen">
             <div className="flex flex-col w-2/3 h-5/6 gap-2">
                 <div className="inline-block flex-col items-start justify-center border-b border-[#929292]/50 w-auto basis-1/5">
                     <h1 className={`${rethinkSans.className} antialiased text-6xl text-blue-600 font-extrabold`}>create an event</h1>
-                    <div className="w-[25rem] h-full">
+                    <div className="w-[25rem] h-10">
                         <p className="mt-3 mb-1">Search an event code</p>
                         <div className="relative flex flex-row gap-2 w-full h-10">
                             <div className="relative flex flex-1 shrink-0">
@@ -58,10 +65,12 @@ export default function Page() {
                     </div>
                     <div className="flex items-center justify-center my-4 w-full h-[52.5vh] rounded-xl bg-slate-800">
                         <div className="w-full h-full p-12">
-                            <div className="grid grid-cols-3 lg:grid-cols-6 w-full h-full gap-4 overflow-y-auto">
+                            <div className={`grid grid-cols-3 lg:grid-cols-6 ${numberOfRows} grid-flow-row-dense w-full h-full gap-4 overflow-y-auto`}>
                                 {
-                                    teamsInEvent.map((value) => 
-                                        <TeamPill key={value} teamNumber={value} teamName="The Blair Robot Project" />
+                                    teamsInEvent.map((teamNumber) => 
+                                        <button onClick={(_) => setTeams(teamsInEvent.filter((value) => value != teamNumber))}>
+                                            <TeamPill key={teamNumber} teamNumber={teamNumber} teamName={teams[teamNumber.toString() as keyof typeof teams]} />
+                                        </button>
                                     )
                                 }
                                 {
