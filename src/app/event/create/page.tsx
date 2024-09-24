@@ -1,6 +1,6 @@
 'use client';
 
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { MagnifyingGlassIcon, HashtagIcon } from "@heroicons/react/24/outline";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { rethinkSans } from "@/app/ui/fonts";
 import Link from "next/link";
@@ -50,17 +50,28 @@ export default function Page() {
                     </div>
                 </div>
                 <div className="flex flex-col items-start justify-start w-full basis-4/5 gap-2">
-                    <p className="mt-3">Or, select teams to create an event for</p>
-                    <div className="w-[18rem] h-10">
-                        <div className="relative flex flex-1 shrink-0 w-full h-full">
-                            <input 
-                                className="block rounded-md bg-transparent border border-blue-500/75 placeholder-gray-500 text-sm text-white w-full h-full pl-10 focus:outline-none" 
-                                value={teamNumberEntered}
-                                placeholder="Team Number"
-                                onChange={(event) => setTeamNumber(event.target.value)}
-                                onKeyDown={onTeamNumberEntered}
-                            />
-                            <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-500 w-5 h-5" />
+                    <div className="inline-block w-auto">
+                        <p className="mt-3">Or, select teams to create an event for</p>
+                        <div className="w-full h-10 mt-2">
+                            <div className="relative flex flex-row gap-2 w-full h-10">
+                                <div className="relative flex flex-1 shrink-0">
+                                    <input
+                                        className="block rounded-md bg-transparent border border-blue-500/75 placeholder-gray-500 text-sm text-white w-full pl-8 focus:outline-none" 
+                                        value={teamNumberEntered}
+                                        placeholder="Team Number"
+                                        onChange={(event) => setTeamNumber(event.target.value)}
+                                        onKeyDown={onTeamNumberEntered}
+                                    />
+                                    <HashtagIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-500 w-4 h-4" />
+                                </div>
+                                <Link
+                                    key="createEvent"
+                                    href={`/event?teams=${teamsInEvent.join('_')}`}
+                                    className="flex items-center justify-center w-10 h-10 rounded-md bg-blue-600 hover:bg-blue-500 text-[#0d111b]"
+                                >
+                                    <PaperAirplaneIcon className="w-5 h-5" />
+                                </Link>
+                            </div>
                         </div>
                     </div>
                     <div className="flex items-center justify-center my-4 w-full h-[52.5vh] rounded-xl bg-slate-800">
