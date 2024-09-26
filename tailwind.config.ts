@@ -15,7 +15,14 @@ const config: Config = {
       boxShadow: {
         weakBlue: '0 0 100px 20px rgba(37, 99, 235, 0.25)',
         strongBlue: '0 0 100px 20px rgba(37, 99, 235, 0.5)'
-      }
+      },
+      keyframes: {
+        shimmer: {
+          '100%': {
+            transform: 'translateX(100%)',
+          },
+        },
+      },
     },
   },
   plugins: [],

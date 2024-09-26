@@ -4,20 +4,8 @@ function randomIntFromInterval(min: number, max: number) { // min and max includ
   }
   
 
-export function fetchDataForTeams(teams: number[]) {
-    const ls : PicklistSchema2024[] = [];
-
-    teams.forEach((value) => {
-        ls.push({
-            teamNumber: value,
-            totalEpa: randomIntFromInterval(300, 600) / 10.0,
-            totalNotesInAuto: randomIntFromInterval(10, 40) / 10.0,
-            totalNotesInSpeaker: randomIntFromInterval(30, 80) / 10.0,
-            totalNotesInAmp: randomIntFromInterval(0, 80) / 10.0
-        })
-    })
-
-    return ls;
+export async function fetchDataForTeams(teams: number[]) {
+    return await Promise.all(teams.map(async (team) => await fetchDataForTeam(team)));
 }
 
 export function sortDataByStat(data: PicklistSchema2024[], sortOrder: SortOrder) {
@@ -29,4 +17,17 @@ export function sortDataByStat(data: PicklistSchema2024[], sortOrder: SortOrder)
     }
 
     return data.sort((d1, d2) => d1[sortOrderToPropertyName[sortOrder]] - d2[sortOrderToPropertyName[sortOrder]]).reverse();
+}
+
+async function fetchDataForTeam(team: number): Promise<PicklistSchema2024> {
+    const teamData = await fetch(`https://api.statbotics.io/v3/team_year/${team}/2024`)
+        .then((response) => response.json());
+
+    return {
+        teamNumber: team,
+        totalEpa: parseFloat(teamData["epa"]["breakdown"]["total_points"]["mean"]),
+        totalNotesInAuto: parseFloat(teamData["epa"]["breakdown"]["auto_notes"]["mean"]),
+        totalNotesInSpeaker: parseFloat(teamData["epa"]["breakdown"]["speaker_notes"]["mean"]),
+        totalNotesInAmp: parseFloat(teamData["epa"]["breakdown"]["amp_notes"]["mean"])
+    };
 }

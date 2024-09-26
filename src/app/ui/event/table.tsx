@@ -15,7 +15,7 @@ export default function Table(
         setBestPick, 
         setBestSpeakerBot, 
         setBestAmpBot 
-    }: { 
+    } : { 
         data: PicklistSchema2024[],
         fields: string[], 
         sortOrder: string ,
@@ -25,7 +25,7 @@ export default function Table(
     }
 ) {
     const sortedData = useMemo(() => sortDataByStat(data, sortOrder as SortOrder), [sortOrder]);
-    const [activeTeams, setActiveTeams] = useState([4099, 1727, 1731, 1629, 401, 2363]);
+    const [activeTeams, setActiveTeams] = useState(data.map((value) => value["teamNumber"]));
 
     setBestPick(bestOverallPick(data, activeTeams, sortOrder as SortOrder));
     setBestSpeakerBot(bestSpeakerBot(data, activeTeams));
@@ -68,5 +68,5 @@ export default function Table(
                 }
             </div>
         </div>
-    )
+    );
 }
