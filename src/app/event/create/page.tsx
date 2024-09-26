@@ -7,9 +7,12 @@ import Link from "next/link";
 import { useState } from "react";
 import TeamPill from "@/app/ui/event/team-pill";
 import teams from "@/app/data/teams.json";
+import { State, fetchEvent } from "@/app/lib/actions";
+import { useFormState } from "react-dom";
+
 
 export default function Page() {
-    const onTeamNumberEntered = ((event: React.KeyboardEvent<HTMLInputElement>) => {
+    const onTeamNumberEntered = (event: React.KeyboardEvent<HTMLInputElement>) => {
         const parsedTeamNumber = parseInt(teamNumberEntered);
 
         if (
@@ -21,11 +24,15 @@ export default function Page() {
             setTeams([...teamsInEvent, parseInt(teamNumberEntered)]);
             setTeamNumber('');
         }
-    });
+    };
 
     const [teamNumberEntered, setTeamNumber] = useState('');
     const [teamsInEvent, setTeams] = useState<number[]>([]);
     const numberOfRows = teamsInEvent.length < 36 ? "grid-rows-6" : "";
+
+    const initialState: State = { errors: [] }
+
+    const [state, formAction] = useFormState(fetchEvent, initialState);
 
     return (
         <div className="flex items-center justify-center w-screen h-screen">
@@ -34,19 +41,29 @@ export default function Page() {
                     <h1 className={`${rethinkSans.className} antialiased text-6xl text-blue-600 font-extrabold`}>create an event</h1>
                     <div className="w-[25rem] h-10">
                         <p className="mt-3 mb-1">Search an event code</p>
-                        <div className="relative flex flex-row gap-2 w-full h-10">
-                            <div className="relative flex flex-1 shrink-0">
-                                <input className="block rounded-md bg-transparent border border-blue-500/75 placeholder-gray-500 text-sm text-white w-full pl-10 focus:outline-none" placeholder="Event code" />
-                                <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-500 w-5 h-5" />
+                        <form action={formAction}>
+                            <div className="relative flex flex-row gap-2 w-full h-10">
+                                <div className="relative flex flex-1 shrink-0">
+                                    <input 
+                                        name="eventCode"
+                                        className="block rounded-md bg-transparent border border-blue-500/75 placeholder-gray-500 text-sm text-white w-full pl-10 focus:outline-none" 
+                                        placeholder="Event code" />
+                                    <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-500 w-5 h-5" />
+                                </div>
+                                <button
+                                    key="createEvent"
+                                    type="submit"
+                                    className="flex items-center justify-center w-10 h-10 rounded-md bg-blue-600 hover:bg-blue-500 text-[#0d111b]"
+                                >
+                                    <PaperAirplaneIcon className="w-5 h-5" />
+                                </button>
                             </div>
-                            <Link
-                                key="createEvent"
-                                href={`/event/2024chcmp`}
-                                className="flex items-center justify-center w-10 h-10 rounded-md bg-blue-600 hover:bg-blue-500 text-[#0d111b]"
-                            >
-                                <PaperAirplaneIcon className="w-5 h-5" />
-                            </Link>
-                        </div>
+                        </form>
+                    </div>
+                    <div className="mt-8 mb-1">
+                        { state.errors && 
+                            <p className="text-red-400 text-sm">{state.errors[0]}</p>
+                        }
                     </div>
                 </div>
                 <div className="flex flex-col items-start justify-start w-full basis-4/5 gap-2">

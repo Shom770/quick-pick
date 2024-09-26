@@ -19,6 +19,22 @@ export function sortDataByStat(data: PicklistSchema2024[], sortOrder: SortOrder)
     return data.sort((d1, d2) => d1[sortOrderToPropertyName[sortOrder]] - d2[sortOrderToPropertyName[sortOrder]]).reverse();
 }
 
+export async function fetchTeamsForEvent(eventCode: string): Promise<number[]> {
+    const requestHeaders: HeadersInit = new Headers();
+    requestHeaders.set('X-TBA-Auth-Key', process.env.API_KEY!!);
+
+    const eventData = await fetch(`https://www.thebluealliance.com/api/v3/event/${eventCode}/teams/simple`, {
+        headers: requestHeaders
+    })
+        .then((response) => response.json());
+
+    if (eventData["Error"]) {
+        return [];
+    }
+
+    return eventData.map((team: Record<string, string | number>) => team["team_number"]);
+}
+
 async function fetchDataForTeam(team: number): Promise<PicklistSchema2024> {
     const teamData = await fetch(`https://api.statbotics.io/v3/team_year/${team}/2024`)
         .then((response) => response.json());
