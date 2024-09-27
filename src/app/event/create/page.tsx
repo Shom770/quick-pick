@@ -9,6 +9,9 @@ import TeamPill from "@/app/ui/event/team-pill";
 import teams from "@/app/data/teams.json";
 import { State, fetchEvent } from "@/app/lib/actions";
 import { useFormState } from "react-dom";
+import useScreenSize from "@/app/lib/hooks";
+import { LARGE_SCREEN_SIZE, MEDIUM_SCREEN_SIZE } from "@/app/lib/constants";
+import { number } from "zod";
 
 
 export default function Page() {
@@ -28,15 +31,16 @@ export default function Page() {
 
     const [teamNumberEntered, setTeamNumber] = useState('');
     const [teamsInEvent, setTeams] = useState<number[]>([]);
-    const numberOfRows = teamsInEvent.length < 36 ? "grid-rows-6" : "";
+    const { width, height } = useScreenSize();
+
+    const numberOfRows = ((teamsInEvent.length < 36 && width >= LARGE_SCREEN_SIZE) || (teamsInEvent.length < 18 && width < LARGE_SCREEN_SIZE)) ? "grid-rows-6" : "";
 
     const initialState: State = { errors: [] }
-
     const [state, formAction] = useFormState(fetchEvent, initialState);
 
     return (
         <div className="flex items-center justify-center w-screen h-screen">
-            <div className="flex flex-col w-2/3 h-5/6 gap-2">
+            <div className="flex flex-col w-3/4 lg:w-2/3 h-5/6 gap-2">
                 <div className="inline-block flex-col items-start justify-center border-b border-[#929292]/50 w-auto basis-1/5">
                     <h1 className={`${rethinkSans.className} antialiased text-6xl text-blue-600 font-extrabold`}>create an event</h1>
                     <div className="w-[25rem] h-10">

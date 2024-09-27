@@ -39,11 +39,22 @@ async function fetchDataForTeam(team: number): Promise<PicklistSchema2024> {
     const teamData = await fetch(`https://api.statbotics.io/v3/team_year/${team}/2024`)
         .then((response) => response.json());
 
-    return {
-        teamNumber: team,
-        totalEpa: parseFloat(teamData["epa"]["breakdown"]["total_points"]["mean"]),
-        totalNotesInAuto: parseFloat(teamData["epa"]["breakdown"]["auto_notes"]["mean"]),
-        totalNotesInSpeaker: parseFloat(teamData["epa"]["breakdown"]["speaker_notes"]["mean"]),
-        totalNotesInAmp: parseFloat(teamData["epa"]["breakdown"]["amp_notes"]["mean"])
-    };
+    try {
+        return {
+            teamNumber: team,
+            totalEpa: parseFloat(teamData["epa"]["breakdown"]["total_points"]["mean"]),
+            totalNotesInAuto: parseFloat(teamData["epa"]["breakdown"]["auto_notes"]["mean"]),
+            totalNotesInSpeaker: parseFloat(teamData["epa"]["breakdown"]["speaker_notes"]["mean"]),
+            totalNotesInAmp: parseFloat(teamData["epa"]["breakdown"]["amp_notes"]["mean"])
+        };
+    } catch (error) {
+        // No error from this year's game.
+        return {
+            teamNumber: team,
+            totalEpa: 0,
+            totalNotesInAuto: 0,
+            totalNotesInAmp: 0,
+            totalNotesInSpeaker: 0
+        }
+    }
 }
