@@ -8,6 +8,11 @@ import { fetchDataForTeams } from "@/app/lib/data";
 import { PicklistSchema2024 } from "@/app/lib/types";
 import Summarizer from "@/app/ui/event/summarizer";
 import { SummarizerSkeleton, TableSkeleton } from "@/app/ui/skeletons";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Picklist Page | Quick, Pick!"
+};
 
 function EventPage() {
     const searchParams = useSearchParams();

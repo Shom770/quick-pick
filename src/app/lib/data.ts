@@ -18,7 +18,7 @@ export function sortDataByStat(data: PicklistSchema2024[], sortOrder: SortOrder)
 export async function fetchTeamsForEvent(eventCode: string): Promise<number[]> {
     const requestHeaders: HeadersInit = new Headers();
     requestHeaders.set('X-TBA-Auth-Key', process.env.API_KEY as string);
-
+    
     const eventData = await fetch(`https://www.thebluealliance.com/api/v3/event/${eventCode}/teams/simple`, {
         headers: requestHeaders
     })

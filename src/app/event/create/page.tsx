@@ -10,8 +10,11 @@ import teams from "@/app/data/teams.json";
 import { State, fetchEvent } from "@/app/lib/actions";
 import { useFormState } from "react-dom";
 import useScreenSize from "@/app/lib/hooks";
-import { LARGE_SCREEN_SIZE } from "@/app/lib/constants";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+    title: "Create an Event | Quick, Pick!"
+};
 
 export default function Page() {
     const onTeamNumberEntered = (event: React.KeyboardEvent<HTMLInputElement>) => {
