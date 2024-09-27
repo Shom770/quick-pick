@@ -24,7 +24,7 @@ export default function Table(
         setBestAmpBot: (value: number) => void
     }
 ) {
-    const sortedData = useMemo(() => sortDataByStat(data, sortOrder as SortOrder), [sortOrder]);
+    const sortedData = useMemo(() => sortDataByStat(data, sortOrder as SortOrder), [data, sortOrder]);
     const [activeTeams, setActiveTeams] = useState(data.map((value) => value["teamNumber"]));
 
     setBestPick(bestOverallPick(data, activeTeams, sortOrder as SortOrder));

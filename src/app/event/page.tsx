@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { rethinkSans } from "@/app/ui/fonts";
 import Table from "@/app/ui/event/table";
 import { fetchDataForTeams } from "@/app/lib/data";
@@ -9,7 +9,7 @@ import { PicklistSchema2024 } from "@/app/lib/types";
 import Summarizer from "@/app/ui/event/summarizer";
 import { SummarizerSkeleton, TableSkeleton } from "@/app/ui/skeletons";
 
-export default function Page() {
+function EventPage() {
     const searchParams = useSearchParams();
     
     const [data, setData] = useState<PicklistSchema2024[]>([]);
@@ -31,7 +31,7 @@ export default function Page() {
                 clearTimeout(timeoutId);
             }
         },
-        []
+        [teams]
     );
 
     const [bestPick, setBestPick] = useState(0);
@@ -101,4 +101,10 @@ export default function Page() {
             </div>
         </div>
     );
+}
+
+export default function Page() {
+    return <Suspense>
+        <EventPage />
+    </Suspense>
 }

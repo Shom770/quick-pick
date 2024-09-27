@@ -1,8 +1,4 @@
 import { PicklistSchema2024, SortOrder } from "@/app/lib/types";
-function randomIntFromInterval(min: number, max: number) { // min and max included 
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
-  
 
 export async function fetchDataForTeams(teams: number[]) {
     return await Promise.all(teams.map(async (team) => await fetchDataForTeam(team)));
@@ -21,7 +17,7 @@ export function sortDataByStat(data: PicklistSchema2024[], sortOrder: SortOrder)
 
 export async function fetchTeamsForEvent(eventCode: string): Promise<number[]> {
     const requestHeaders: HeadersInit = new Headers();
-    requestHeaders.set('X-TBA-Auth-Key', process.env.API_KEY!!);
+    requestHeaders.set('X-TBA-Auth-Key', process.env.API_KEY as string);
 
     const eventData = await fetch(`https://www.thebluealliance.com/api/v3/event/${eventCode}/teams/simple`, {
         headers: requestHeaders
@@ -47,7 +43,7 @@ async function fetchDataForTeam(team: number): Promise<PicklistSchema2024> {
             totalNotesInSpeaker: parseFloat(teamData["epa"]["breakdown"]["speaker_notes"]["mean"]),
             totalNotesInAmp: parseFloat(teamData["epa"]["breakdown"]["amp_notes"]["mean"])
         };
-    } catch (error) {
+    } catch (_) {
         // No error from this year's game.
         return {
             teamNumber: team,

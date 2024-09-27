@@ -10,8 +10,7 @@ import teams from "@/app/data/teams.json";
 import { State, fetchEvent } from "@/app/lib/actions";
 import { useFormState } from "react-dom";
 import useScreenSize from "@/app/lib/hooks";
-import { LARGE_SCREEN_SIZE, MEDIUM_SCREEN_SIZE } from "@/app/lib/constants";
-import { number } from "zod";
+import { LARGE_SCREEN_SIZE } from "@/app/lib/constants";
 
 
 export default function Page() {
@@ -31,9 +30,11 @@ export default function Page() {
 
     const [teamNumberEntered, setTeamNumber] = useState('');
     const [teamsInEvent, setTeams] = useState<number[]>([]);
+
+    // Save for later use, doesn't work right now.
     const { width, height } = useScreenSize();
 
-    const numberOfRows = ((teamsInEvent.length < 36 && width >= LARGE_SCREEN_SIZE) || (teamsInEvent.length < 18 && width < LARGE_SCREEN_SIZE)) ? "grid-rows-6" : "";
+    const numberOfRows = (teamsInEvent.length < 36) ? "grid-rows-6" : "";
 
     const initialState: State = { errors: [] }
     const [state, formAction] = useFormState(fetchEvent, initialState);
@@ -100,7 +101,7 @@ export default function Page() {
                             <div className={`grid grid-cols-3 lg:grid-cols-6 ${numberOfRows} grid-flow-row-dense w-full h-full gap-4 overflow-y-auto`}>
                                 {
                                     teamsInEvent.map((teamNumber) => 
-                                        <button onClick={(_) => setTeams(teamsInEvent.filter((value) => value != teamNumber))}>
+                                        <button key={teamNumber} onClick={(_) => setTeams(teamsInEvent.filter((value) => value != teamNumber))}>
                                             <TeamPill key={teamNumber} teamNumber={teamNumber} teamName={teams[teamNumber.toString() as keyof typeof teams]} />
                                         </button>
                                     )
