@@ -5,6 +5,7 @@ import { sortDataByStat } from "@/app/lib/data";
 import { PicklistSchema2024, SortOrder } from "@/app/lib/types";
 import { useMemo, useState } from "react";
 import { bestAmpBot, bestOverallPick, bestSpeakerBot } from "@/app/lib/utils";
+import clsx from 'clsx';
   
   
 export default function Table(
@@ -47,13 +48,13 @@ export default function Table(
                 </div>
                 <div className="flex flex-row items-center justify-between w-full ml-16">
                     <div className="w-1/6">
-                        <p className="font-bold text-sm">Team Number</p>
+                        <p className="font-bold text-[13px] xl:text-sm whitespace-nowrap">Team Number</p>
                     </div>
                     {
                         fields.map(
                             (name) => (
                                 <div key={name}className="w-1/6">
-                                    <p className="font-bold text-sm mr-16">{name}</p> 
+                                    <p className="font-bold text-[13px] xl:text-sm mr-16 whitespace-nowrap">{name}</p> 
                                 </div>
                             )
                         )

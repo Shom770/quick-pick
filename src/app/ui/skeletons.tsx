@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 // Loading animation
 const shimmer =
   'before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_1.5s_infinite] before:bg-gradient-to-r before:from-transparent before:via-slate-600/40 before:to-transparent';
@@ -8,20 +10,20 @@ export function SummarizerSkeleton() {
             <div className="relative grid grid-cols-3 w-full h-full divide-x divide-gray-500/50">
                 <div className="flex items-center justify-center">
                     <div className="flex flex-col items-start justify-center gap-3">
-                        <div className="rounded-lg h-6 w-32 bg-slate-700"></div>
-                        <div className="rounded-lg h-12 w-40 bg-slate-700"></div>
+                        <div className="rounded-lg h-5 w-20 xl:h-5 xl:w-30 bg-slate-700"></div>
+                        <div className="rounded-lg h-10 w-28 xl:h-12 xl:w-36 bg-slate-700"></div>
                     </div>
                 </div>
                 <div className="flex items-center justify-center">
                     <div className="flex flex-col items-start justify-center gap-3">
-                        <div className="rounded-lg h-6 w-32 bg-slate-700"></div>
-                        <div className="rounded-lg h-12 w-40 bg-slate-700"></div>
+                        <div className="rounded-lg h-5 w-32 xl:h-5 xl:w-30 bg-slate-700"></div>
+                        <div className="rounded-lg h-10 w-28 xl:h-12 xl:w-36 bg-slate-700"></div>
                     </div>
                 </div>
                 <div className="flex items-center justify-center">
                     <div className="flex flex-col items-start justify-center gap-3">
-                        <div className="rounded-lg h-6 w-32 bg-slate-700"></div>
-                        <div className="rounded-lg h-12 w-40 bg-slate-700"></div>
+                        <div className="rounded-lg h-5 w-28 xl:h-5 xl:w-30 bg-slate-700"></div>
+                        <div className="rounded-lg h-10 w-28 xl:h-12 xl:w-36 bg-slate-700"></div>
                     </div>
                 </div>
             </div>
@@ -57,20 +59,20 @@ export function TableSkeleton({ fields, rows = 9 } : { fields: string[], rows?: 
                 </div>
                 <div className="flex flex-row items-center justify-between w-full ml-16">
                     <div className="w-1/6">
-                        <p className="font-bold text-sm">Team Number</p>
+                        <p className="font-bold text-[13px] xl:text-sm whitespace-nowrap">Team Number</p>
                     </div>
                     {
                         fields.map(
                             (name) => (
                                 <div key={name}className="w-1/6">
-                                    <p className="font-bold text-sm mr-16">{name}</p> 
+                                    <p className="font-bold text-[13px] xl:text-sm mr-16 whitespace-nowrap">{name}</p> 
                                 </div>
                             )
                         )
                     }
                 </div>
             </div>
-            <div className={`${shimmer} relative overflow-hidden w-full h-[51vh] overflow-y-auto`}>
+            <div className={clsx(`${shimmer} relative overflow-hidden w-full h-auto overflow-y-auto`, { 'h-[51vh]' : rows >= 8 } )}>
                 { 
                     Array.from({length: rows}, (_, key) => key).map((rowNumber) => 
                         <TableRowSkeleton key={`row${rowNumber}`} rowNumber={rowNumber} fields={["Team Number", ...fields]} />
