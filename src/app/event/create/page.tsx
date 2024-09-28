@@ -40,7 +40,7 @@ export default function Page() {
 
     return (
         <div className="flex items-center justify-center w-screen h-screen">
-            <div className="flex flex-col w-3/4 h-5/6 gap-2">
+            <div className="flex flex-col w-3/4 h-[87.5vh] gap-4">
                 <div className="inline-block flex-col items-start justify-center border-b border-[#929292]/50 w-auto basis-1/5">
                     <h1 className={`${rethinkSans.className} antialiased text-6xl text-blue-600 font-extrabold`}>create an event</h1>
                     <div className="w-[25rem] h-10">
@@ -72,10 +72,11 @@ export default function Page() {
                 </div>
                 <div className="flex flex-col items-start justify-start w-full basis-4/5 gap-2">
                     <div className="inline-block w-auto">
-                        <p className="mt-3">Or, select teams to create an event for</p>
-                        <div className="w-full h-10 mt-2">
-                            <div className="relative flex flex-row gap-2 w-full h-10">
-                                <div className="relative flex flex-1 shrink-0">
+                        <p>Or, select teams to create an event for</p>
+                        <p className="text-xs text-gray-400 -mt-1">Press enter to add a new team</p>
+                        <div className="flex flex-col gap-2 w-full h-24 mt-2">
+                            <div className="w-full h-10">
+                                <div className="relative flex flex-1 shrink-0 h-10">
                                     <input
                                         className="block rounded-md bg-transparent border border-blue-500/75 placeholder-gray-500 text-sm text-white w-full pl-8 focus:outline-none" 
                                         value={teamNumberEntered}
@@ -85,18 +86,19 @@ export default function Page() {
                                     />
                                     <HashtagIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-500 w-4 h-4" />
                                 </div>
-                                <Link
-                                    key="createEvent"
-                                    href={`/event?teams=${teamsInEvent.join('_')}`}
-                                    className="flex items-center justify-center w-10 h-10 rounded-md bg-blue-600 hover:bg-blue-500 text-[#0d111b]"
-                                >
-                                    <PaperAirplaneIcon className="w-5 h-5" />
-                                </Link>
                             </div>
+                            <Link
+                                key="createEvent"
+                                href={`/event?teams=${teamsInEvent.join('_')}`}
+                                className="flex items-center justify-center gap-2 w-full h-10 rounded-lg bg-blue-600 hover:bg-blue-500 text-[#0d111b]"
+                            >
+                                <strong>Create Event</strong>
+                                <PaperAirplaneIcon className="w-5 h-5" />
+                            </Link>
                         </div>
                     </div>
-                    <div className="flex items-center justify-center my-4 w-full h-[52.5vh] rounded-xl bg-slate-800">
-                        <div className="w-full h-full p-12">
+                    <div className="flex items-center justify-center my-4 w-full h-[50vh] rounded-xl bg-slate-800">
+                        <div className="w-full h-full p-8">
                             <div className={`grid grid-cols-3 lg:grid-cols-6 ${numberOfRows} grid-flow-row-dense w-full h-full gap-4 overflow-y-auto`}>
                                 {
                                     teamsInEvent.map((teamNumber) => 
