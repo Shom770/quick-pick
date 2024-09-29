@@ -43,7 +43,7 @@ export default function Page() {
             <div className="flex flex-col w-3/4 h-[87.5vh] gap-4">
                 <div className="inline-block flex-col items-start justify-center border-b border-[#929292]/50 w-auto basis-1/5">
                     <h1 className={`${rethinkSans.className} antialiased text-6xl text-blue-600 font-extrabold`}>create an event</h1>
-                    <div className="w-[25rem] h-10">
+                    <div className="w-[25rem] h-16">
                         <p className="mt-3 mb-1">Search an event code</p>
                         <form action={formAction}>
                             <div className="relative flex flex-row gap-2 w-full h-10">
@@ -64,7 +64,7 @@ export default function Page() {
                             </div>
                         </form>
                     </div>
-                    <div className="mt-8 mb-1">
+                    <div className="py-2">
                         { state.errors && 
                             <p className="text-red-400 text-sm">{state.errors[0]}</p>
                         }
