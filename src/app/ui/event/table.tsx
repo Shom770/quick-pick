@@ -48,13 +48,13 @@ export default function Table(
                 </div>
                 <div className="flex flex-row items-center justify-between w-full ml-16">
                     <div className="w-1/6">
-                        <p className="font-bold text-[13px] xl:text-sm whitespace-nowrap">Team Number</p>
+                        <p className="font-bold text-xs lg:text-[13px] xl:text-sm whitespace-nowrap">Team Number</p>
                     </div>
                     {
                         fields.map(
                             (name) => (
                                 <div key={name}className="w-1/6">
-                                    <p className="font-bold text-[13px] xl:text-sm mr-16 whitespace-nowrap">{name}</p> 
+                                    <p className="font-bold text-xs lg:text-[13px] xl:text-sm mr-16 whitespace-nowrap">{name}</p> 
                                 </div>
                             )
                         )

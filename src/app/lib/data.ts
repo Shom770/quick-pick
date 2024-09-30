@@ -18,7 +18,7 @@ export function sortDataByStat(data: PicklistSchema2024[], sortOrder: SortOrder)
 export async function fetchTeamsForEvent(eventCode: string): Promise<number[]> {
     const requestHeaders: HeadersInit = new Headers();
     requestHeaders.set('X-TBA-Auth-Key', process.env.API_KEY as string);
-    
+
     const eventData = await fetch(`https://www.thebluealliance.com/api/v3/event/${eventCode}/teams/simple`, {
         headers: requestHeaders
     })
@@ -32,7 +32,12 @@ export async function fetchTeamsForEvent(eventCode: string): Promise<number[]> {
 }
 
 async function fetchDataForTeam(team: number): Promise<PicklistSchema2024> {
-    const teamData = await fetch(`https://api.statbotics.io/v3/team_year/${team}/2024`)
+    const requestHeaders: HeadersInit = new Headers();
+    requestHeaders.set('Access-Control-Allow-Origin', '*');
+
+    const teamData = await fetch(`https://api.statbotics.io/v3/team_year/${team}/2024`, {
+        headers: requestHeaders
+    })
         .then((response) => response.json());
 
     try {

@@ -41,7 +41,7 @@ export default function TableRow({ data, addTeam, removeTeam } : { data: Picklis
             <div className="flex flex-row items-center justify-between w-full ml-16">
                 { Object.entries(data).map(([_, value]) => (
                       <div key={value} className="w-1/6">
-                          <p className={clsx("", { "text-gray-500" : !isActive })} suppressHydrationWarning>{value}</p>
+                          <p className={clsx("text-sm lg:text-base", { "text-gray-500" : !isActive })} suppressHydrationWarning>{value}</p>
                       </div>
                     )
                   )
