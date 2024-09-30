@@ -9,7 +9,6 @@ import { PicklistSchema2024 } from "@/app/lib/types";
 import Summarizer from "@/app/ui/event/summarizer";
 import { SummarizerSkeleton, TableSkeleton } from "@/app/ui/skeletons";
 
-
 function EventPage() {
     const searchParams = useSearchParams();
     
@@ -23,16 +22,12 @@ function EventPage() {
 
     useEffect(
         () => {
-            const timeoutId = setTimeout(async () => {
-                const fetchedData = await fetchDataForTeams(teams);
-                setData(fetchedData);
-            }, 0);
+            const fetchData = async () => setData(await fetchDataForTeams(teams));
 
-            return () => {
-                clearTimeout(timeoutId);
-            }
+            fetchData()
+                .catch(console.error);
         },
-        [teams]
+        []
     );
 
     const [bestPick, setBestPick] = useState(0);

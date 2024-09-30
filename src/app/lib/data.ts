@@ -39,6 +39,8 @@ async function fetchDataForTeam(team: number): Promise<PicklistSchema2024> {
         headers: requestHeaders
     })
         .then((response) => response.json());
+    
+        console.log(team);
 
     try {
         return {
