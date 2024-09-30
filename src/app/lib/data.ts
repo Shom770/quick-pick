@@ -33,7 +33,7 @@ export async function fetchTeamsForEvent(eventCode: string): Promise<number[]> {
 
 async function fetchDataForTeam(team: number): Promise<PicklistSchema2024> {
     const requestHeaders: HeadersInit = new Headers();
-    requestHeaders.set('Access-Control-Allow-Origin', '*');
+    requestHeaders.set('Access-Control-Allow-Origin', 'https://quick-pick-psi.vercel.app');
 
     const teamData = await fetch(`https://api.statbotics.io/v3/team_year/${team}/2024`, {
         headers: requestHeaders
