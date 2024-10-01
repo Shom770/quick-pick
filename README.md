@@ -1,6 +1,5 @@
-<img width="400" alt="Screenshot of the desktop Quick, Pick! pages" src="https://github.com/user-attachments/assets/1763f287-9d33-46c4-9f99-db1df746f37c">
-
 # Quick, Pick!
+
 In light of the new rules requiring captains to make picks in under 45 seconds, this makes it a lot harder for low-resource teams who unexpectedly became captains to make educated decisions while picking. Quick, Pick! is a simple alliance tool meant to alleviate the stresses of captains who never expected to be in a picking position. Using Statbotics data, Quick, Pick! allows you to view an interactive picklist of whatever event you'd like with a breakdown of the statistics by each team.
 
 ## How does it work?
@@ -11,7 +10,9 @@ Quick, Pick! uses Statbotics data to display a breakdown by team dependent on th
 First, you have to select an event or create an event yourself so the website knows which teams to pull the data for. You can either type in an event code (e.g. 2024cur for Curie Division  or create an event by listing out the individual teams at an event (like for offseasons where the team list may not be posted on TBA).
 
 Here's an example of the event creation page:
-<img width="1670" alt="Screenshot of the event creation page" src="https://github.com/user-attachments/assets/498756b9-b640-4960-8b8d-4de2555aef1d">
+<br>
+<br>
+<img width="600" alt="Screenshot of the event creation page" src="https://github.com/user-attachments/assets/498756b9-b640-4960-8b8d-4de2555aef1d">
 
 ### Picklist Page
 The main part of the website, however, is the picklist page. The picklist page can take around 10 seconds to load for larger events (>60 teams) but otherwise the loading time is relatively short.
@@ -21,7 +22,9 @@ The picklist page allows you to sort the data by whatever metric you want (by de
 During alliance selection, you can check off the teams that are unavailable for picking, updating the summary to give you the best pick on all three metrics based on the teams that are left. 
 
 Here's a picture of the picklist page:
-<img width="1670" alt="Screenshot of the picklist page" src="https://github.com/user-attachments/assets/dc97b141-ab40-4ba9-9b2c-6373aff17fab">
+<br>
+<br>
+<img width="600" alt="Screenshot of the picklist page" src="https://github.com/user-attachments/assets/dc97b141-ab40-4ba9-9b2c-6373aff17fab">
 
 ## Bugs and Features
 If you ever come across any bugs in the website, please feel free to open an issue and ideally attach a picture of what the bug is or explain the bug in detail so I can fix it quickly.
