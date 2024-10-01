@@ -47,10 +47,12 @@ function EventPage() {
                                 className="w-4/5 h-10 rounded-lg bg-white/10 outline outline-white/50 border-r-8 border-transparent text-white text-sm p-2.5 mt-1"
                                 onChange={(event) => setSortOrder(event.target.value)}
                                 defaultValue="Total EPA">
-                                <option>Total EPA</option>
-                                <option>Total Notes in Auto</option>
-                                <option>Total Notes in Speaker</option>
-                                <option>Total Notes in Amp</option>
+                                <optgroup className="bg-slate-800">
+                                    <option className="bg-slate-800">Total EPA</option>
+                                    <option className="bg-slate-800">Total Notes in Auto</option>
+                                    <option className="bg-slate-800">Total Notes in Speaker</option>
+                                    <option className="bg-slate-800">Total Notes in Amp</option>
+                                </optgroup>
                             </select>
                         </form>
                     </div>
