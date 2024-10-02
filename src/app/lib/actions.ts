@@ -1,6 +1,6 @@
 'use server';
 
-import { fetchTeamsForEvent } from "@/app/lib/data";
+import { fetchTeamsForEvent, isEventInSeason } from "@/app/lib/data";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from 'zod';
@@ -26,6 +26,7 @@ export async function fetchEvent(prevState: State, formData: FormData)  {
 
     const { eventCode } = validatedInput.data;
     const teams = await fetchTeamsForEvent(eventCode);
+    const isInSeason = await isEventInSeason(eventCode);
 
     if (teams.length == 0) {
         return {
@@ -34,6 +35,12 @@ export async function fetchEvent(prevState: State, formData: FormData)  {
     }
     else {
         revalidatePath('/event');
-        redirect(`/event?teams=${teams.join("_")}`);
+
+        if (isInSeason) {
+            redirect(`/event?teams=${teams.join("_")}&event=${eventCode}`);
+        }
+        else {
+            redirect(`/event?teams=${teams.join("_")}`)
+        }
     }
 }

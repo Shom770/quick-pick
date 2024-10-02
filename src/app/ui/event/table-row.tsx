@@ -4,7 +4,17 @@ import clsx from 'clsx';
 import { useState } from "react";
 import { PicklistSchema2024 } from "@/app/lib/types";
 
-export default function TableRow({ data, addTeam, removeTeam } : { data: PicklistSchema2024, addTeam: (team: number) => void, removeTeam: (team: number) => void }) { 
+export default function TableRow({
+    data, 
+    addTeam, 
+    removeTeam,
+    isDragging
+}: { 
+    data: PicklistSchema2024, 
+    addTeam: (team: number) => void, 
+    removeTeam: (team: number) => void ,
+    isDragging: boolean
+}) { 
     const [isActive, setActive] = useState(true);
 
     const changeActiveness = (value: boolean) => {
@@ -19,7 +29,7 @@ export default function TableRow({ data, addTeam, removeTeam } : { data: Picklis
     }
 
     return (
-        <div key={data["teamNumber"]} className="flex flex-row items-center justify-start gap-3 mx-auto w-full h-14 border-b border-gray-500/50">
+        <div key={data["teamNumber"]} className={`flex flex-row items-center justify-start gap-3 mx-auto w-full h-14 border-b border-gray-500/50 ${isDragging ? 'bg-blue-600/20 border-[1.5px] border-b-[1.5px] border-blue-600/75 rounded-md' : ''}`}>
             <div className="relative w-4 h-4">
                 <input 
                     type="checkbox" 
@@ -48,5 +58,5 @@ export default function TableRow({ data, addTeam, removeTeam } : { data: Picklis
                 }
             </div>
         </div>
-    )
+    );
 }

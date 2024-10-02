@@ -20,9 +20,11 @@ function EventPage() {
         .split("_")
         .map((value) => parseInt(value));
 
+    const eventCode = searchParams.get("event");
+
     useEffect(
         () => {
-            const fetchData = async () => setData(await fetchDataForTeams(teams));
+            const fetchData = async () => setData(await fetchDataForTeams(teams, eventCode));
 
             fetchData()
                 .catch(console.error);
@@ -47,7 +49,7 @@ function EventPage() {
                                 className="w-4/5 h-10 rounded-lg bg-white/10 outline outline-white/50 border-r-8 border-transparent text-white text-sm p-2.5 mt-1"
                                 onChange={(event) => setSortOrder(event.target.value)}
                                 defaultValue="Total EPA">
-                                <optgroup className="bg-slate-800">
+                                <optgroup>
                                     <option className="bg-slate-800">Total EPA</option>
                                     <option className="bg-slate-800">Total Notes in Auto</option>
                                     <option className="bg-slate-800">Total Notes in Speaker</option>
