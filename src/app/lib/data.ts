@@ -52,7 +52,7 @@ async function fetchDataForTeam(team: number, eventCode: string | null): Promise
     const requestHeaders: HeadersInit = new Headers();
     requestHeaders.set('Access-Control-Allow-Origin', 'https://quick-pick-psi.vercel.app');
 
-    var teamData: Record<string, any>;
+    let teamData: Record<string, any>;
 
     if (!eventCode) {
         teamData = await fetch(`https://api.statbotics.io/v3/team_year/${team}/2024`, {
