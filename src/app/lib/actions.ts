@@ -8,7 +8,6 @@ import { z } from 'zod';
 const FormSchema = z.object({
     eventCode: z
         .string()
-        .min(4, "No event code entered.")
         .regex(/^2024[a-zA-Z]+$/, "Event code doesn't match format: '2024[code]'. Make sure your event is from 2024 and you're using the right event code.")
 });
 
