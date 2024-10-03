@@ -8,6 +8,7 @@ import { fetchDataForTeams } from "@/app/lib/data";
 import { PicklistSchema2024 } from "@/app/lib/types";
 import Summarizer from "@/app/ui/event/summarizer";
 import { SummarizerSkeleton, TableSkeleton } from "@/app/ui/skeletons";
+import Toggle from "@/app/ui/toggle";
 
 function EventPage() {
     const searchParams = useSearchParams();
@@ -57,6 +58,7 @@ function EventPage() {
                                 </optgroup>
                             </select>
                         </form>
+                        <Toggle />
                     </div>
                     <div></div>
                     <SummarizerSkeleton />
@@ -86,6 +88,8 @@ function EventPage() {
                             <option>Total Notes in Amp</option>
                         </select>
                     </form>
+                    <p className="font-medium text-sm mt-3">Simple mode (no visual clutter)?</p>
+                    <Toggle />
                 </div>
                 <div></div>
                 <Summarizer bestPick={bestPick} bestSpeakerBot={bestSpeakerBot} bestAmpBot={bestAmpBot} />

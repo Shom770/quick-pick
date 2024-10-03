@@ -3,7 +3,7 @@
 import TableRow from "@/app/ui/event/table-row";
 import { sortDataByStat } from "@/app/lib/data";
 import { PicklistSchema2024, SortOrder } from "@/app/lib/types";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { bestAmpBot, bestOverallPick, bestSpeakerBot } from "@/app/lib/utils";
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 
