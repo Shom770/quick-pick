@@ -20,7 +20,7 @@ export default function RootLayout({
         <link rel="icon" href="/icon.jpg" sizes="any" />
       </head>
       <body
-        className={`${inter.className} antialiased dark`}
+        className={`${inter.className} antialiased dark bg-[#0d111b]`}
       >
         {children}
       </body>

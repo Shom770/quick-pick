@@ -58,7 +58,6 @@ function EventPage() {
                                 </optgroup>
                             </select>
                         </form>
-                        <Toggle />
                     </div>
                     <div></div>
                     <SummarizerSkeleton />
@@ -88,8 +87,6 @@ function EventPage() {
                             <option>Total Notes in Amp</option>
                         </select>
                     </form>
-                    <p className="font-medium text-sm mt-3">Simple mode (no visual clutter)?</p>
-                    <Toggle />
                 </div>
                 <div></div>
                 <Summarizer bestPick={bestPick} bestSpeakerBot={bestSpeakerBot} bestAmpBot={bestAmpBot} />
