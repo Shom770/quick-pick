@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { inter } from "@/app/ui/fonts";
+import { Analytics } from "@vercel/analytics/react"
 import "./globals.css";
 
 
@@ -22,6 +23,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} antialiased dark bg-[#0d111b]`}
       >
+        <Analytics />
         {children}
       </body>
     </html>
