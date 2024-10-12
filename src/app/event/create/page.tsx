@@ -137,8 +137,8 @@ export default function Page() {
                         <div className="w-full h-full px-2 py-8">
                             <div className="flex flex-col items-center justify-start w-full h-full overflow-y-auto gap-3 md:gap-7">
                                 {
-                                    chunkedTeams.map((subList) => 
-                                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 w-full">
+                                    chunkedTeams.map((subList, index) => 
+                                        <div key={`${index}teams`} className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 w-full">
                                             {
                                                 subList.map(([teamNumber, isInList]) => {
                                                         if (isInList) {
@@ -150,7 +150,7 @@ export default function Page() {
                                                         }
                                                         else {
                                                             return (
-                                                                <div className="flex items-center justify-center mx-auto w-[85%] md:w-40 h-14 bg-blue-600/[0.1] border-2 border-blue-600/50 border-dashed rounded-md md:rounded-2xl">
+                                                                <div key="newTeam" className="flex items-center justify-center mx-auto w-[85%] md:w-40 h-14 bg-blue-600/[0.1] border-2 border-blue-600/50 border-dashed rounded-md md:rounded-2xl">
                                                                     <h1 className={`${rethinkSans.className} font-extrabold text-xl text-white/75`}>{teamNumberEntered}</h1>
                                                                 </div> 
                                                             )
