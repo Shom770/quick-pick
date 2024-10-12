@@ -133,7 +133,7 @@ export default function Page() {
                             </Link>
                         </div>
                     </div>
-                    <div className="flex items-center justify-center -mt-3 md:my-4 w-full h-[50vh] rounded-xl bg-slate-800">
+                    <div className="flex items-center justify-center -mt-3 md:my-4 w-full h-[40vh] rounded-xl bg-slate-800">
                         <div className="w-full h-full px-2 py-8">
                             <div className="flex flex-col items-center justify-start w-full h-full overflow-y-auto gap-3 md:gap-7">
                                 {
