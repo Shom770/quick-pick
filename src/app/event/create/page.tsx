@@ -76,7 +76,7 @@ export default function Page() {
 
     return (
         <div className="flex items-center justify-center w-screen h-screen">
-            <div className="flex flex-col w-5/6 md:w-3/4 h-[97vh] md:h-[87.5vh] gap-4">
+            <div className="flex flex-col w-5/6 md:w-3/4 h-screen md:h-[87.5vh] gap-4">
                 <div className="inline-block flex-col items-start justify-center border-b border-[#929292]/50 w-auto basis-1/5">
                     <h1 className={`${rethinkSans.className} antialiased text-[12.3vw] md:text-6xl text-blue-600 font-extrabold`}>create an event</h1>
                     <div className="w-full md:w-[25rem] h-20 md:h-16">
