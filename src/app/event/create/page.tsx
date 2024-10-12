@@ -4,12 +4,13 @@ import { MagnifyingGlassIcon, HashtagIcon } from "@heroicons/react/24/outline";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { rethinkSans } from "@/app/ui/fonts";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TeamPill from "@/app/ui/event/team-pill";
 import teams from "@/app/data/teams.json";
 import { State, fetchEvent } from "@/app/lib/actions";
 import { useFormState } from "react-dom";
-import useScreenSize from "@/app/lib/hooks";
+import { chunked } from "@/app/lib/utils";
+import { MEDIUM_SCREEN_SIZE, LARGE_SCREEN_SIZE, SMALL_SCREEN_SIZE } from "@/app/lib/constants";
 
 
 export default function Page() {
@@ -19,7 +20,7 @@ export default function Page() {
         if (
             event.key == 'Enter'
             && !Number.isNaN(parsedTeamNumber) 
-            && teamsInEvent.indexOf(parsedTeamNumber) == -1
+            // && teamsInEvent.indexOf(parsedTeamNumber) == -1
             && parsedTeamNumber.toString() in teams
         ) {
             setTeams([...teamsInEvent, parseInt(teamNumberEntered)]);
@@ -27,24 +28,59 @@ export default function Page() {
         }
     };
 
+
+    // Tracking width + height for chunking purposes
+    const [windowSize, setWindowSize] = useState({
+        width: 0,
+        height: 0
+      });
+    
+      // Effect to add a resize event listener on mount, and clean up on unmount
+      useEffect(() => {
+        // Handler to call on window resize
+        const handleResize = () => {
+          setWindowSize({
+            width: window.innerWidth,
+            height: window.innerHeight
+          });
+        };
+    
+        // Add event listener
+        window.addEventListener('resize', handleResize);
+    
+        // Call handler right away to ensure state is correct at first render
+        handleResize();
+    
+        // Remove event listener on cleanup
+        return () => window.removeEventListener('resize', handleResize);
+      }, []); // Empty array ensures the effect is only run on mount and unmount
+    
+
     const [teamNumberEntered, setTeamNumber] = useState('');
     const [teamsInEvent, setTeams] = useState<number[]>([]);
+    const teamsInEventStringified = teamsInEvent.map((value) => [value.toString(), true]);
 
-    // Save for later use, doesn't work right now.
-    const { width, height } = useScreenSize();
+    let chunkSize = 6;
 
-    const numberOfRows = (teamsInEvent.length < 36) ? "grid-rows-6" : "";
+    if (MEDIUM_SCREEN_SIZE <= windowSize.width && windowSize.width < LARGE_SCREEN_SIZE) {
+        chunkSize = 3;
+    }
+    else if (windowSize.width < MEDIUM_SCREEN_SIZE) {
+        chunkSize = 1;
+    }
+
+    const chunkedTeams = chunked(teamNumberEntered ? teamsInEventStringified.concat([[teamNumberEntered, false]]) : teamsInEventStringified, chunkSize);
 
     const initialState: State = { errors: [] }
     const [state, formAction] = useFormState(fetchEvent, initialState);
 
     return (
         <div className="flex items-center justify-center w-screen h-screen">
-            <div className="flex flex-col w-3/4 h-[87.5vh] gap-4">
+            <div className="flex flex-col w-5/6 md:w-3/4 h-[87.5vh] gap-4">
                 <div className="inline-block flex-col items-start justify-center border-b border-[#929292]/50 w-auto basis-1/5">
-                    <h1 className={`${rethinkSans.className} antialiased text-6xl text-blue-600 font-extrabold`}>create an event</h1>
-                    <div className="w-[25rem] h-16">
-                        <p className="mt-3 mb-1">Search an event code</p>
+                    <h1 className={`${rethinkSans.className} antialiased text-[51px] md:text-6xl text-blue-600 font-extrabold`}>create an event</h1>
+                    <div className="w-full md:w-[25rem] h-16">
+                        <p className="md:mt-3 mb-1">Search an event code</p>
                         <form action={formAction}>
                             <div className="relative flex flex-row gap-2 w-full h-10">
                                 <div className="relative flex flex-1 shrink-0">
@@ -64,14 +100,14 @@ export default function Page() {
                             </div>
                         </form>
                     </div>
-                    <div className="py-2">
+                    <div className="py-2 mb-1 md:m-none">
                         { state.errors && 
                             <p className="text-red-400 text-sm">{state.errors[0]}</p>
                         }
                     </div>
                 </div>
                 <div className="flex flex-col items-start justify-start w-full basis-4/5 gap-2">
-                    <div className="inline-block w-auto">
+                    <div className="inline-block w-full md:w-auto">
                         <p>Or, select teams to create an event for</p>
                         <p className="text-xs text-gray-400 -mt-1">Press enter to add a new team</p>
                         <div className="flex flex-col gap-2 w-full h-24 mt-2">
@@ -98,9 +134,34 @@ export default function Page() {
                         </div>
                     </div>
                     <div className="flex items-center justify-center my-4 w-full h-[50vh] rounded-xl bg-slate-800">
-                        <div className="w-full h-full p-8">
-                            <div className={`grid grid-cols-3 lg:grid-cols-6 ${numberOfRows} grid-flow-row-dense w-full h-full gap-4 overflow-y-auto`}>
+                        <div className="w-full h-full px-2 py-8">
+                            <div className="flex flex-col items-center justify-start w-full h-full overflow-y-auto gap-7">
                                 {
+                                    chunkedTeams.map((subList) => 
+                                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 w-full">
+                                            {
+                                                subList.map(([teamNumber, isInList]) => {
+                                                        if (isInList) {
+                                                            return (
+                                                                <button key={teamNumber} onClick={(_) => setTeams(teamsInEvent.filter((value) => value != parseInt(teamNumber)))} className="mx-auto w-full md:w-40 h-14">
+                                                                    <TeamPill key={teamNumber} teamNumber={parseInt(teamNumber)} teamName={teams[teamNumber as keyof typeof teams]} />
+                                                                </button>
+                                                            );
+                                                        }
+                                                        else {
+                                                            return (
+                                                                <div className="flex items-center justify-center mx-auto w-full md:w-40 h-14 bg-blue-600/[0.1] border-2 border-blue-600/50 border-dashed rounded-2xl">
+                                                                    <h1 className={`${rethinkSans.className} font-extrabold text-xl text-white/75`}>{teamNumberEntered}</h1>
+                                                                </div> 
+                                                            )
+                                                        }
+                                                    }
+                                                )
+                                            }
+                                        </div>
+                                    )
+                                }
+                                {/* {
                                     teamsInEvent.map((teamNumber) => 
                                         <button key={teamNumber} onClick={(_) => setTeams(teamsInEvent.filter((value) => value != teamNumber))}>
                                             <TeamPill key={teamNumber} teamNumber={teamNumber} teamName={teams[teamNumber.toString() as keyof typeof teams]} />
@@ -109,11 +170,11 @@ export default function Page() {
                                 }
                                 {
                                     teamNumberEntered && (
-                                        <div className="flex items-center justify-center w-40 h-14 bg-blue-600/[0.1] border-2 border-blue-600/50 border-dashed rounded-2xl">
+                                        <div className="flex items-center justify-center w-full md:w-40 h-14 bg-blue-600/[0.1] border-2 border-blue-600/50 border-dashed rounded-2xl">
                                             <h1 className={`${rethinkSans.className} font-extrabold text-xl text-white/75`}>{teamNumberEntered}</h1>
                                         </div> 
                                     )
-                                }
+                                } */}
                             </div>
                         </div>
                     </div>

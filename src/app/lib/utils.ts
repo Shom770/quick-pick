@@ -18,3 +18,10 @@ export function bestAmpBot(data: PicklistSchema2024[], activeTeams: number[]) {
         .sort((d1, d2) => (d1["totalNotesInAmp"] - d2["totalNotesInAmp"])  || (d1["totalEpa"] - d2["totalEpa"]))
         .reverse()[0]?.teamNumber || 0;
 }
+
+export function chunked(arr: any[], size: number) {
+    return Array.from({ length: Math.ceil(arr.length / size) },
+        (_, index) =>
+            arr.slice(index * size, (index + 1) * size)
+    );
+}
