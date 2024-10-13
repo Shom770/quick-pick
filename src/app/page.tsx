@@ -18,7 +18,7 @@ export default function Home() {
           }
         } />
       </div>
-      <div className="basis-1/5 -mt-8 md:mt-0">
+      <div className="basis-1/5 -mt-6 md:mt-0">
         <h1 className={`${rethinkSans.className} text-6xl md:text-7xl font-extrabold text-blue-600 whitespace-nowrap`}>quick, pick!</h1>
         <div className="max-w-[19rem] md:max-w-[22.5rem]">
           <p className="text-white text-md leading-tight mt-3">
