@@ -46,7 +46,7 @@ function EventPage() {
     
     if (data.length == 0) {
         return (
-            <div className="flex flex-col items-center justify-start md:justify-center w-screen min-h-screen max-h-screen overflow-y-hidden">
+            <div className="flex flex-col items-center justify-start md:justify-center w-screen max-h-screen overflow-y-hidden">
                 <div className="flex flex-col items-center justify-center gap-4 md:flex-none md:grid md:grid-cols-5 w-4/5 md:w-5/6 h-2/5 md:h-1/5">
                     <div className="flex flex-col items-start justify-center">
                         <h1 className={`${rethinkSans.className} text-6xl md:text-7xl text-blue-500 font-extrabold`}>picklist</h1>
@@ -77,7 +77,7 @@ function EventPage() {
     }
 
     return (
-        <div className="flex flex-col items-center justify-start md:justify-center w-screen h-screen">
+        <div className="flex flex-col items-center justify-start md:justify-center w-screen max-h-screen overflow-y-hidden">
             <div className="flex flex-col items-center justify-center gap-4 md:flex-none md:grid md:grid-cols-5 w-4/5 md:w-5/6 h-2/5 md:h-1/5">
                 <div className="flex flex-col items-start justify-center">
                     <h1 className={`${rethinkSans.className} text-6xl md:text-7xl text-blue-500 font-extrabold`}>picklist</h1>
