@@ -76,7 +76,7 @@ export function TableSkeleton({ fields, rows = 9 } : { fields: string[], rows?: 
                     }
                 </div>
             </div>
-            <div className={clsx(`${shimmer} relative overflow-hidden w-full h-auto overflow-y-auto`, { 'h-[51vh]' : rows >= rows } )}>
+            <div className={clsx(`${shimmer} relative overflow-hidden w-full h-[40vh] md:h-auto overflow-y-auto`, { 'h-[51vh]' : rows >= 9 } )}>
                 { 
                     Array.from({length: rows}, (_, key) => key).map((rowNumber) => 
                         <TableRowSkeleton key={`row${rowNumber}`} rowNumber={rowNumber} fields={["Team Number", ...fields]} />

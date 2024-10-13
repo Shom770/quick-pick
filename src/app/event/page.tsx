@@ -54,7 +54,7 @@ function EventPage() {
                             <label htmlFor="sortOrder" className="font-medium text-sm">Choose metric to sort by</label>
                             <select 
                                 id="sortOrder" 
-                                className="w-full h-10 rounded-md md:rounded-lg bg-white/10 md:outline md:outline-white/50 border-r-8 border-transparent text-white text-sm p-4 md:p-2.5 mt-1"
+                                className="w-full h-10 rounded-md md:rounded-lg bg-white/10 outline outline-white/50 border-r-8 border-transparent text-white text-sm p-4 md:p-2.5 mt-1"
                                 onChange={(event) => setSortOrder(event.target.value)}
                                 defaultValue="Total EPA">
                                 <optgroup>
@@ -85,7 +85,7 @@ function EventPage() {
                         <label htmlFor="sortOrder" className="font-medium text-sm">Choose metric to sort by</label>
                         <select 
                             id="sortOrder" 
-                            className="w-full h-10 rounded-md md:rounded-lg bg-white/10 md:outline md:outline-white/50 border-r-8 border-transparent text-white text-sm p-5 md:p-2.5 mt-1"
+                            className="w-full h-10 rounded-md md:rounded-lg bg-white/10 outline outline-white/50 border-r-8 border-transparent text-white text-sm p-5 md:p-2.5 mt-1"
                             onChange={(event) => setSortOrder(event.target.value)}
                             defaultValue="Total EPA">
                             <optgroup>
