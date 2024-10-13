@@ -82,7 +82,7 @@ export default function Table({
                 <Droppable droppableId="tableRows">
                     {(provided) => (
                         <div
-                            className="w-[215vw] md:w-full h-[45vh] md:h-[51vh] overflow-y-auto"
+                            className="w-[215vw] md:w-full h-[46vh] md:h-[51vh] overflow-y-auto"
                             {...provided.droppableProps}
                             ref={provided.innerRef}
                         >
