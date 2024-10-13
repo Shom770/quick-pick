@@ -5,10 +5,10 @@ import { rethinkSans } from "@/app/ui/fonts";
 
 export default function Home() {
   return (
-    <div className="flex flex-grow flex-row items-center justify-center w-screen h-screen gap-8">
-      <div className="basis-1/5">
-        <h1 className={`${rethinkSans.className} text-7xl font-extrabold text-blue-600 whitespace-nowrap`}>quick, pick!</h1>
-        <div className="max-w-[22.5rem]">
+    <div className="relative flex flex-grow flex-col md:flex-row items-center justify-center w-screen h-screen gap-8">
+      <div className="basis-1/5 mt-32">
+        <h1 className={`${rethinkSans.className} text-6xl md:text-7xl font-extrabold text-blue-600 whitespace-nowrap`}>quick, pick!</h1>
+        <div className="max-w-[19rem] md:max-w-[22.5rem]">
           <p className="text-white text-md leading-tight mt-3">
             A simple tool to help you during alliance selection using Statbotics data.
           </p>
@@ -22,8 +22,20 @@ export default function Home() {
           </Link>
         </div>
       </div>
-      <div className="flex items-center justify-center">
+      <div className="hidden md:flex items-center justify-center">
         <Image src="/hero-desktop.png" width={722} height={764} quality={100} alt="Desktop version of quickpick's picklist page and event page." />
+      </div>
+      <div className="flex md:hidden items-center justify-center">
+        <Image src="/hero-phone.png" width={452} height={700} quality={100} alt="Phone version of quickpick's picklist page and event page." style={
+          {
+            WebkitMaskImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 75%)',
+            maskImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 75%)',
+            WebkitMaskSize: '100% 100%',
+            maskSize: '100% 100%',
+            WebkitMaskRepeat: 'no-repeat',
+            maskRepeat: 'no-repeat'
+          }
+        } />
       </div>
     </div>
   );
