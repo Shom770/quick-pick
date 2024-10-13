@@ -6,8 +6,8 @@ import { rethinkSans } from "@/app/ui/fonts";
 export default function Home() {
   return (
     <div className="relative flex flex-grow flex-col md:flex-row items-center justify-start md:justify-center w-screen h-screen gap-8 overflow-hidden">
-      <div className="md:hidden mt-12">
-        <Image src="/hero-phone.png" width={322} height={500} quality={100} alt="Phone version of quickpick's picklist page and event page." style={
+      <div className="h-[50vh] md:hidden mt-12">
+        <Image src="/hero-phone.png" width={400} height={500} quality={100} alt="Phone version of quickpick's picklist page and event page." style={
           {
             WebkitMaskImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 75%)',
             maskImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 75%)',
