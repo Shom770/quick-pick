@@ -6,7 +6,7 @@ import { rethinkSans } from "@/app/ui/fonts";
 export default function Home() {
   return (
     <div className="relative flex flex-grow flex-col md:flex-row items-center justify-center w-screen h-screen gap-8 overflow-hidden">
-      <div className="basis-1/5 mt-16">
+      <div className="basis-1/5">
         <h1 className={`${rethinkSans.className} text-6xl md:text-7xl font-extrabold text-blue-600 whitespace-nowrap`}>quick, pick!</h1>
         <div className="max-w-[19rem] md:max-w-[22.5rem]">
           <p className="text-white text-md leading-tight mt-3">
