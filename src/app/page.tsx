@@ -6,7 +6,7 @@ import { rethinkSans } from "@/app/ui/fonts";
 export default function Home() {
   return (
     <div className="relative flex flex-grow flex-col md:flex-row items-center justify-start md:justify-center w-screen h-screen gap-8 overflow-hidden">
-      <div className="basis-1/5">
+      <div className="basis-1/5 mt-8">
         <h1 className={`${rethinkSans.className} text-6xl md:text-7xl font-extrabold text-blue-600 whitespace-nowrap`}>quick, pick!</h1>
         <div className="max-w-[19rem] md:max-w-[22.5rem]">
           <p className="text-white text-md leading-tight mt-3">
@@ -25,7 +25,7 @@ export default function Home() {
       <div className="hidden md:flex items-center justify-center">
         <Image src="/hero-desktop.png" width={722} height={764} quality={100} alt="Desktop version of quickpick's picklist page and event page." />
       </div>
-      <div className="relative h-[50vh] md:hidden">
+      <div className="relative h-[50vh] md:hidden overflow-hidden">
         <Image src="/hero-phone.png" width={452} height={700} quality={100} alt="Phone version of quickpick's picklist page and event page." style={
           {
             WebkitMaskImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 75%)',
