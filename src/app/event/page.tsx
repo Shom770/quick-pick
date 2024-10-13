@@ -100,7 +100,7 @@ function EventPage() {
                 <div></div>
                 <Summarizer bestPick={bestPick} bestSpeakerBot={bestSpeakerBot} bestAmpBot={bestAmpBot} />
             </div>
-            <div className="w-[95vw] md:w-5/6 h-[46%] md:h-1/2 mt-4 md:mt-12 ml-[5vw] md:ml-0">
+            <div className="w-[95vw] md:w-5/6 h-[46%] md:h-1/2 mt-6 md:mt-12 ml-[5vw] md:ml-0">
                 <Table
                     data={data}
                     fields={["Total EPA", "Total Notes in Auto", "Total Notes in Speaker", "Total Notes in Amp"]}
