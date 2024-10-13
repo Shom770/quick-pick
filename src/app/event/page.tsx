@@ -69,7 +69,7 @@ function EventPage() {
                     <div></div>
                     <SummarizerSkeleton />
                 </div>
-                <div className="w-[95vw] md:w-5/6 h-1/2 mt-4 md:mt-12 ml-[5vw] md:ml-0">
+                <div className="w-[95vw] md:w-5/6 h-[50vh] md:h-1/2 mt-4 md:mt-12 ml-[5vw] md:ml-0">
                     <TableSkeleton fields={["Total EPA", "Total Notes in Auto", "Total Notes in Speaker", "Total Notes in Amp"]} rows={Math.min(teams.length, 9)}/>
                 </div>
             </div>
