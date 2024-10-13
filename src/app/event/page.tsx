@@ -50,7 +50,7 @@ function EventPage() {
                 <div className="flex flex-col items-center justify-center gap-4 mdx:flex-none md:grid md:grid-cols-5 w-4/5 md:w-5/6 h-2/5 md:h-1/5 mt-4 md:mt-0">
                     <div className="flex flex-col items-start justify-center">
                         <h1 className={`${rethinkSans.className} text-[56px] md:text-7xl text-blue-500 font-extrabold`}>picklist</h1>
-                        <form className="w-full md:w-[18rem] mt-3">
+                        <form className="w-full md:w-[18rem] mt-2">
                             <label htmlFor="sortOrder" className="font-medium text-sm">Choose metric to sort by</label>
                             <select 
                                 id="sortOrder" 
@@ -81,7 +81,7 @@ function EventPage() {
             <div className="flex flex-col items-center justify-center gap-4 md:flex-none md:grid md:grid-cols-5 w-4/5 md:w-5/6 h-2/5 md:h-1/5">
                 <div className="flex flex-col items-start justify-center">
                     <h1 className={`${rethinkSans.className} text-[56px] md:text-7xl text-blue-500 font-extrabold`}>picklist</h1>
-                    <form className="w-full md:w-[18rem] mt-3">
+                    <form className="w-full md:w-[18rem] mt-2">
                         <label htmlFor="sortOrder" className="font-medium text-sm">Choose metric to sort by</label>
                         <select 
                             id="sortOrder" 
