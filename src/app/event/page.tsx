@@ -47,7 +47,7 @@ function EventPage() {
     if (data.length == 0) {
         return (
             <div className="flex flex-col items-center justify-start md:justify-center w-screen h-screen">
-                <div className="flex flex-col items-center justify-center gap-4 md:flex-none md:grid md:grid-cols-5 w-4/5 md:w-5/6 h-1/3 md:h-1/5">
+                <div className="flex flex-col items-center justify-center gap-4 md:flex-none md:grid md:grid-cols-5 w-4/5 md:w-5/6 h-2/5 md:h-1/5">
                     <div className="flex flex-col items-start justify-center">
                         <h1 className={`${rethinkSans.className} text-6xl md:text-7xl text-blue-500 font-extrabold`}>picklist</h1>
                         <form className="w-full md:w-[18rem] mt-3">
@@ -78,14 +78,14 @@ function EventPage() {
 
     return (
         <div className="flex flex-col items-center justify-start md:justify-center w-screen h-screen">
-            <div className="flex flex-col items-center justify-center gap-4 md:flex-none md:grid md:grid-cols-5 w-4/5 md:w-5/6 h-1/3 md:h-1/5">
+            <div className="flex flex-col items-center justify-center gap-4 md:flex-none md:grid md:grid-cols-5 w-4/5 md:w-5/6 h-2/5 md:h-1/5">
                 <div className="flex flex-col items-start justify-center">
                     <h1 className={`${rethinkSans.className} text-6xl md:text-7xl text-blue-500 font-extrabold`}>picklist</h1>
                     <form className="w-full md:w-[18rem] mt-3">
                         <label htmlFor="sortOrder" className="font-medium text-sm">Choose metric to sort by</label>
                         <select 
                             id="sortOrder" 
-                            className="w-full h-10 rounded-md md:rounded-lg bg-white/10 outline outline-white/50 border-r-8 border-transparent text-white text-sm p-5 md:p-2.5 mt-1"
+                            className="w-full h-10 rounded-md md:rounded-lg bg-white/10 outline :outline-white/50 border-r-8 border-transparent text-white text-sm p-5 md:p-2.5 mt-1"
                             onChange={(event) => setSortOrder(event.target.value)}
                             defaultValue="Total EPA">
                             <optgroup>
