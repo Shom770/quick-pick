@@ -6,21 +6,25 @@ const shimmer =
 
 export function SummarizerSkeleton() {
     return (
-        <div className={`${shimmer} relative overflow-hidden col-span-3 bg-slate-800 h-3/4 self-center rounded-lg`}>
-            <div className="relative grid grid-cols-3 w-full h-full divide-x divide-gray-500/50">
+        <div className={`${shimmer} relative overflow-hidden col-span-3 bg-slate-800 w-full md:w-auto h-1/3 md:h-3/4 self-center rounded-lg`}>
+            <div className="grid grid-cols-2 md:grid-cols-3 w-full h-full p-4 md:divide-x md:divide-gray-500/50">
                 <div className="flex items-center justify-center">
                     <div className="flex flex-col items-start justify-center gap-3">
                         <div className="rounded-lg h-5 w-20 xl:h-5 xl:w-30 bg-slate-700"></div>
                         <div className="rounded-lg h-10 w-28 xl:h-12 xl:w-36 bg-slate-700"></div>
                     </div>
                 </div>
-                <div className="flex items-center justify-center">
+                <div className="flex flex-col md:hidden items-center justify-center gap-1.5">
+                    <div className="bg-slate-700 rounded-md w-5/6 h-6"></div>
+                    <div className="bg-slate-700 rounded-md w-5/6 h-6"></div>
+                </div>
+                <div className="hidden md:flex items-center justify-center">
                     <div className="flex flex-col items-start justify-center gap-3">
                         <div className="rounded-lg h-5 w-32 xl:h-5 xl:w-30 bg-slate-700"></div>
                         <div className="rounded-lg h-10 w-28 xl:h-12 xl:w-36 bg-slate-700"></div>
                     </div>
                 </div>
-                <div className="flex items-center justify-center">
+                <div className="hidden md:flex items-center justify-center">
                     <div className="flex flex-col items-start justify-center gap-3">
                         <div className="rounded-lg h-5 w-28 xl:h-5 xl:w-30 bg-slate-700"></div>
                         <div className="rounded-lg h-10 w-28 xl:h-12 xl:w-36 bg-slate-700"></div>
@@ -33,14 +37,14 @@ export function SummarizerSkeleton() {
 
 export function TableRowSkeleton({ fields, rowNumber } : { fields: string[], rowNumber: number }) {
     return (
-        <div key={rowNumber} className="flex flex-row items-center justify-start gap-3 mx-auto w-full h-14 border-b border-gray-500/50">
+        <div key={rowNumber} className="flex flex-row items-center justify-start gap-3 mx-auto w-[215vw] overflow-hidden md:w-full h-14 border-b border-gray-500/50 mr-2 md:mr-0">
             <div className="relative w-4 h-4">
                 <input type="checkbox" className="appearance-none w-4 h-4 ml-4 bg-gray-500 bg-opacity-50 border-2 border-gray-500 rounded-sm focus:ring-0 checked:bg-red-400/25 checked:border-red-400/50" disabled />
             </div>
-            <div className="flex flex-row items-center justify-between w-full ml-16">
+            <div className="flex flex-row items-center justify-between w-full ml-6 md:ml-16">
                 { fields.map((value) => (
-                        <div key={`row${value}`} className="w-1/6">
-                            <div key={`${rowNumber}${value}`} className="bg-slate-700/50 rounded-lg h-6 w-1/2"></div>
+                        <div key={`row${value}`} className="flex items-center w-[35vw] md:w-1/6 h-14 border-l border-gray-500/50 md:h-auto md:border-none">
+                            <div key={`${rowNumber}${value}`} className="bg-slate-700/50 rounded-lg h-6 w-3/5 md:w-1/4 ml-4 md:ml-0 px-2 md:px-0"></div>
                         </div>
                     )
                   )
@@ -52,27 +56,27 @@ export function TableRowSkeleton({ fields, rowNumber } : { fields: string[], row
 
 export function TableSkeleton({ fields, rows = 9 } : { fields: string[], rows?: number }) {
     return (
-        <div className="h-3/5">
-            <div className="flex flex-row items-center justify-start gap-3 mx-auto w-full h-10 rounded-t-lg bg-gray-700/50">
+        <div className="overflow-x-hidden min-h-1/2 md:min-h-3/5">
+            <div className="flex flex-row items-center justify-start gap-3 mx-auto w-[215vw] md:w-full h-10 rounded-t-lg bg-transparent md:bg-gray-700/50 border-b border-gray-500 md:border-none mr-2 md:mr-0">
                 <div className="relative w-4 h-4">
                     <input type="checkbox" className="appearance-none w-4 h-4 ml-4 bg-gray-500 bg-opacity-50 border-2 border-gray-500 rounded-sm focus:ring-0 checked:bg-red-400/25 checked:border-red-400/50" disabled />
                 </div>
-                <div className="flex flex-row items-center justify-between w-full ml-16">
-                    <div className="w-1/6">
-                        <p className="font-bold text-[13px] xl:text-sm whitespace-nowrap">Team Number</p>
+                <div className="flex flex-row items-center justify-between w-full ml-6 md:ml-16">
+                    <div className="w-[35vw] md:w-1/6">
+                        <p className="font-bold text-[13px] ml-2 xl:text-sm whitespace-nowrap">Team Number</p>
                     </div>
                     {
                         fields.map(
                             (name) => (
-                                <div key={name}className="w-1/6">
-                                    <p className="font-bold text-[13px] xl:text-sm mr-16 whitespace-nowrap">{name}</p> 
+                                <div key={name}className="w-[35vw] md:w-1/6 ml-4 md:ml-0">
+                                    <p className="font-bold text-[13px] xl:text-sm px-2 md:px-0 whitespace-nowrap">{name}</p> 
                                 </div>
                             )
                         )
                     }
                 </div>
             </div>
-            <div className={clsx(`${shimmer} relative overflow-hidden w-full h-auto overflow-y-auto`, { 'h-[51vh]' : rows >= 8 } )}>
+            <div className={clsx(`${shimmer} relative overflow-hidden w-full h-auto overflow-y-auto`, { 'h-[51vh]' : rows >= rows } )}>
                 { 
                     Array.from({length: rows}, (_, key) => key).map((rowNumber) => 
                         <TableRowSkeleton key={`row${rowNumber}`} rowNumber={rowNumber} fields={["Team Number", ...fields]} />

@@ -1,8 +1,18 @@
 import { PicklistSchema2024 } from "@/app/lib/types";
 
 export function bestOverallPick(data: PicklistSchema2024[], activeTeams: number[]) {
-    return data
-        .filter((datum) => activeTeams.includes(datum["teamNumber"]))[0]?.teamNumber || 0
+    const calculatedBestPick = data
+        .filter((datum) => activeTeams.includes(datum["teamNumber"]))[0];
+
+    return calculatedBestPick ? calculatedBestPick : {
+        teamNumber: 0,
+        totalEpa: 0,
+        autoEpa: 0,
+        teleopEpa: 0,
+        totalNotesInAmp: 0,
+        totalNotesInAuto: 0,
+        totalNotesInSpeaker: 0
+    } as PicklistSchema2024
 }
 
 export function bestSpeakerBot(data: PicklistSchema2024[], activeTeams: number[]) {

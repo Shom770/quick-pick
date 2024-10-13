@@ -18,7 +18,7 @@ export default function Table({
     data: PicklistSchema2024[],
     fields: string[], 
     sortOrder: string ,
-    setBestPick: (value: number) => void,
+    setBestPick: (value: PicklistSchema2024) => void,
     setBestSpeakerBot: (value: number) => void,
     setBestAmpBot: (value: number) => void
 }) {
@@ -58,8 +58,8 @@ export default function Table({
     };
 
     return (
-        <div className="h-3/5">
-            <div className="flex flex-row items-center justify-start gap-3 mx-auto w-full h-10 rounded-t-lg bg-gray-700/50">
+        <div className="overflow-x-scroll md:overflow-x-clip min-h-1/2 md:min-h-3/5">
+            <div className="flex flex-row items-center justify-start gap-3 mx-auto w-[215vw] md:w-auto h-10 rounded-t-lg bg-transparent md:bg-gray-700/50 border-b border-gray-500 md:border-none mr-2 md:mr-0">
                 <div className="relative w-4 h-4">
                     <input
                         type="checkbox"
@@ -67,13 +67,13 @@ export default function Table({
                         disabled
                     />
                 </div>
-                <div className="flex flex-row items-center justify-between w-full ml-16">
-                    <div className="w-1/6">
-                        <p className="font-bold text-xs lg:text-[13px] xl:text-sm whitespace-nowrap">Team Number</p>
+                <div className="flex flex-row items-center justify-between w-full ml-6 md:ml-16">
+                    <div className="w-[35vw] md:w-1/6">
+                        <p className="font-bold text-[13px] lg:text-[13px] xl:text-sm whitespace-nowrap ml-2 md:ml-0">Team Number</p>
                     </div>
                     {fields.map(name => (
-                        <div key={name} className="w-1/6">
-                            <p className="font-bold text-xs lg:text-[13px] xl:text-sm mr-16 whitespace-nowrap">{name}</p>
+                        <div key={name} className="w-[35vw] md:w-1/6 ml-4 md:ml-0">
+                            <p className="font-bold text-[13px] whitespace-nowrap lg:text-[13px] xl:text-sm px-2 md:px-0">{name}</p>
                         </div>
                     ))}
                 </div>
@@ -82,7 +82,7 @@ export default function Table({
                 <Droppable droppableId="tableRows">
                     {(provided) => (
                         <div
-                            className="w-full h-[50vh] overflow-y-auto"
+                            className="w-[215vw] md:w-full h-[51vh] overflow-y-auto"
                             {...provided.droppableProps}
                             ref={provided.innerRef}
                         >

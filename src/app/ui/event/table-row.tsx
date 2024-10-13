@@ -29,7 +29,7 @@ export default function TableRow({
     }
 
     return (
-        <div key={data["teamNumber"]} className={`flex flex-row items-center justify-start gap-3 mx-auto w-full h-14 border-b border-gray-500/50 ${isDragging ? 'bg-blue-600/20 border-[1.5px] border-b-[1.5px] border-blue-600 rounded-md' : ''}`}>
+        <div key={data["teamNumber"]} className={`flex flex-row items-center justify-start gap-3 mx-auto w-[215vw] overflow-visible md:w-full h-14 border-b border-gray-500/50 mr-2 md:mr-0 ${isDragging ? 'bg-blue-600/20 border-[1.5px] border-b-[1.5px] border-blue-600 rounded-md' : ''}`}>
             <div className="relative w-4 h-4">
                 <input 
                     type="checkbox" 
@@ -48,10 +48,13 @@ export default function TableRow({
                     <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
             </div>
-            <div className="flex flex-row items-center justify-between w-full ml-16">
-                { Object.entries(data).map(([_, value]) => (
-                      <div key={value} className="w-1/6">
-                          <p className={clsx("text-sm lg:text-base", { "text-gray-500" : !isActive })} suppressHydrationWarning>{value}</p>
+            <div className="flex flex-row items-center justify-between w-full ml-6 md:ml-16">
+                <div key={data.teamNumber} className="flex items-center w-[35vw] md:w-1/6 border-l border-gray-500/50 h-14 md:border-none md:h-auto">
+                    <p className={clsx("text-lg md:text-sm lg:text-base ml-4 md:ml-0" , { "text-gray-500" : !isActive })} suppressHydrationWarning>{data.teamNumber}</p>
+                </div>
+                { Object.entries(data).filter(([property, _]) => !(["teamNumber", "autoEpa", "teleopEpa"].includes(property))).map(([_, value]) => (
+                      <div key={value} className="flex items-center w-[35vw] md:w-1/6 h-14 border-l border-gray-500/50 md:h-auto md:border-none">
+                          <p className={clsx("text-lg md:text-sm lg:text-base ml-4 md:ml-0 px-2 md:px-0", { "text-gray-500" : !isActive })} suppressHydrationWarning>{value}</p>
                       </div>
                     )
                   )

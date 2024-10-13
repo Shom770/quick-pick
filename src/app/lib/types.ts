@@ -1,6 +1,8 @@
 type BasePicklistSchema = {
     teamNumber: number,
-    totalEpa: number
+    totalEpa: number,
+    autoEpa: number,
+    teleopEpa: number
 }
 
 export type PicklistSchema2024 = BasePicklistSchema & {

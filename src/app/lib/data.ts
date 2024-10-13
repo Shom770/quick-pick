@@ -71,6 +71,8 @@ async function fetchDataForTeam(team: number, eventCode: string | null): Promise
         return {
             teamNumber: team,
             totalEpa: parseFloat(teamData["epa"]["breakdown"]["total_points"]["mean"]),
+            autoEpa: parseFloat(teamData["epa"]["breakdown"]["auto_points"]["mean"]),
+            teleopEpa: parseFloat(teamData["epa"]["breakdown"]["teleop_points"]["mean"]),
             totalNotesInAuto: parseFloat(teamData["epa"]["breakdown"]["auto_notes"]["mean"]),
             totalNotesInSpeaker: parseFloat(teamData["epa"]["breakdown"]["speaker_notes"]["mean"]),
             totalNotesInAmp: parseFloat(teamData["epa"]["breakdown"]["amp_notes"]["mean"])
@@ -80,6 +82,8 @@ async function fetchDataForTeam(team: number, eventCode: string | null): Promise
         return {
             teamNumber: team,
             totalEpa: 0,
+            autoEpa: 0,
+            teleopEpa: 0,
             totalNotesInAuto: 0,
             totalNotesInAmp: 0,
             totalNotesInSpeaker: 0
