@@ -1,21 +1,23 @@
 'use client';
 
 import clsx from 'clsx';
-import { useState } from "react";
+import { useState, memo } from "react";
 import { PicklistSchema2024 } from "@/app/lib/types";
 
-export default function TableRow({
+const TableRow = memo(function TableRow({
     data, 
     addTeam, 
     removeTeam,
+    currentlyActive,
     isDragging
 }: { 
     data: PicklistSchema2024, 
     addTeam: (team: number) => void, 
-    removeTeam: (team: number) => void ,
+    removeTeam: (team: number) => void,
+    currentlyActive: boolean,
     isDragging: boolean
 }) { 
-    const [isActive, setActive] = useState(true);
+    const [isActive, setActive] = useState(currentlyActive);
 
     const changeActiveness = (value: boolean) => {
         setActive(value);
@@ -28,11 +30,16 @@ export default function TableRow({
         }
     }
 
+    const isDisabled = () => {
+        return !isActive || data["teamNumber"]
+    }
+
     return (
         <div key={data["teamNumber"]} className={`flex flex-row items-center justify-start gap-3 mx-auto w-[215vw] overflow-visible md:w-full h-14 border-b border-gray-500/50 mr-2 md:mr-0 ${isDragging ? 'bg-blue-600/20 border-[1.5px] border-b-[1.5px] border-blue-600 rounded-md' : ''}`}>
             <div className="relative w-4 h-4">
                 <input 
                     type="checkbox" 
+                    checked={!currentlyActive}
                     className="peer appearance-none w-4 h-4 ml-4 bg-gray-500 bg-opacity-50 border-2 border-gray-500 rounded-sm cursor-pointer focus:ring-0 checked:bg-red-400/25 checked:border-red-400/50" 
                     onChange={(event) => changeActiveness(!event.target.checked)}/>
                 <svg
@@ -62,4 +69,6 @@ export default function TableRow({
             </div>
         </div>
     );
-}
+});
+
+export default TableRow;
