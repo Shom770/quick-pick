@@ -35,7 +35,7 @@ const TableRow = memo(function TableRow({
     }
 
     return (
-        <div key={data["teamNumber"]} className={`flex flex-row items-center justify-start gap-3 mx-auto w-[215vw] overflow-visible md:w-full h-14 border-b border-gray-500/50 mr-2 md:mr-0 ${isDragging ? 'bg-blue-600/20 border-[1.5px] border-b-[1.5px] border-blue-600 rounded-md' : ''}`}>
+        <div key={data["teamNumber"]} className={`flex flex-row items-center justify-start gap-3 mx-auto w-[215vw] overflow-visible md:w-full h-14 border-b border-gray-500/50 mr-2 md:mr-0 overscroll-none ${isDragging ? 'bg-blue-600/20 border-[1.5px] border-b-[1.5px] border-blue-600 rounded-md' : ''}`}>
             <div className="relative w-4 h-4">
                 <input 
                     type="checkbox" 

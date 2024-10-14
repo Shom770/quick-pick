@@ -58,7 +58,7 @@ export default function Table({
     };
 
     return (
-        <div className="overflow-x-scroll md:overflow-x-clip min-h-1/2 md:min-h-3/5">
+        <div className="overflow-x-scroll md:overflow-x-clip min-h-1/2 md:min-h-3/5 overscroll-none">
             <div className="flex flex-row items-center justify-start gap-3 mx-auto w-[215vw] md:w-auto h-10 rounded-t-lg bg-transparent md:bg-gray-700/50 border-b border-gray-500 md:border-none mr-2 md:mr-0">
                 <div className="relative w-4 h-4">
                     <input
