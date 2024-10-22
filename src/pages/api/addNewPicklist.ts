@@ -11,7 +11,7 @@ export default async function handler(
 ) {
   if (req.method == "POST") {
     const client = await clientPromise;
-    const db = client.db("picklists")
+    const db = client.db("picklists");
   }
   else {
     return res.status(405).json({ message: "Method not allowed."});
