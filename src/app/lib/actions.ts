@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from 'zod';
 
-const FormSchema = z.object({
+const EventFormSchema = z.object({
     eventCode: z
         .string()
         .regex(/^2024/, "Event code doesn't match format: '2024[code]'.")
@@ -16,7 +16,7 @@ export type State = {
 }
 
 export async function fetchEvent(prevState: State, formData: FormData)  { 
-    const validatedInput = FormSchema.safeParse({
+    const validatedInput = EventFormSchema.safeParse({
         eventCode: formData.get("eventCode")
     });
 
