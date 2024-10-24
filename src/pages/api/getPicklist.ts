@@ -4,7 +4,8 @@ import { PicklistSchema2024 } from '@/app/lib/types';
  
 type ResponseData = {
   message: string
-  data?: PicklistSchema2024[]
+  data?: PicklistSchema2024[],
+  static?: boolean
 };
  
 export default async function handler(
@@ -28,7 +29,7 @@ export default async function handler(
       return res.status(404).json({ message: `Picklist of name '${name}' not found.`});
     }
     else {
-      return res.status(200).json({ message: "Picklist retrieved successfully.", data: requestedPicklist["data"] });
+      return res.status(200).json({ message: "Picklist retrieved successfully.", data: requestedPicklist["data"], static: requestedPicklist["static"] });
     }
 
   }

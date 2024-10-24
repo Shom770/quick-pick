@@ -9,13 +9,18 @@ import { PicklistSchema2024 } from "@/app/lib/types";
 import Summarizer from "@/app/ui/event/summarizer";
 import { SummarizerSkeleton, TableSkeleton } from "@/app/ui/skeletons";
 import SaveModal from "@/app/ui/event/save-modal";
+import clsx from "clsx";
 
 function EventPage({ picklist_id } : { picklist_id?: string }) {
     const searchParams = useSearchParams();
     
     const [data, setData] = useState<PicklistSchema2024[]>([]);
+    const [isStatic, setStatic] = useState(false);
     const [sortOrder, setSortOrder] = useState("Total EPA");
     const [isModalOpen, setModalStatus] = useState(false);
+
+    // Hacky way to get child component to save the current order of the picklist
+    const [timesSaved, setTimesSaved] = useState(0);
 
     let teams: number[] = [];
     
@@ -43,13 +48,15 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
                 const fetchData = async () => {
                     const picklistData = await fetch(`/api/getPicklist?name=${picklist_id}`)
                         .then(response => response.json());
-                        
+
                     if (!picklistData["data"]) {
                         // Handle later
                     }
                     else {
                         setData(picklistData["data"]);
                     }
+
+                    setStatic(picklistData["static"] || false);
                 }
                 
                 fetchData()
@@ -81,7 +88,10 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
                             <label htmlFor="sortOrder" className="font-medium text-sm">Choose metric to sort by</label>
                             <select 
                                 id="sortOrder" 
-                                className="w-full h-10 rounded-md md:rounded-lg bg-white/10 outline outline-white/50 border-r-8 border-transparent text-white text-sm p-4 md:p-2.5 mt-1"
+                                className={clsx(
+                                  `w-full h-10 rounded-md md:rounded-lg bg-white/10 outline outline-white/50 border-r-8 border-transparent text-white text-sm p-4 md:p-2.5 mt-1`,
+                                  isStatic ? "disabled" : ""
+                                )}
                                 onChange={(event) => setSortOrder(event.target.value)}
                                 defaultValue="Total EPA">
                                 <optgroup>
@@ -95,14 +105,14 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
                         <button 
                             className="text-sm text-gray-500 underline font-medium mt-3 bg-transparent"
                             disabled>
-                            Save picklist?
+                            {picklist_id ? "Update picklist order?" : "Save picklist?"}
                         </button>
                     </div>
                     <div></div>
                     <SummarizerSkeleton />
                 </div>
                 <div className="w-[95vw] md:w-5/6 h-1/2 mt-4 md:mt-12 ml-[5vw] md:ml-0">
-                    <TableSkeleton fields={["Total EPA", "Total Notes in Auto", "Total Notes in Speaker", "Total Notes in Amp"]} rows={Math.min(teams ? teams.length : 9, 9)}/>
+                    <TableSkeleton fields={["Total EPA", "Total Notes in Auto", "Total Notes in Speaker", "Total Notes in Amp"]} rows={Math.min(teams.length > 0 ? teams.length : 9, 9)}/>
                 </div>
             </div>
         )
@@ -117,9 +127,13 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
                         <label htmlFor="sortOrder" className="font-medium text-sm">Choose metric to sort by</label>
                         <select 
                             id="sortOrder" 
-                            className="w-full h-10 rounded-md md:rounded-lg bg-white/10 outline :outline-white/50 border-r-8 border-transparent text-white text-sm p-5 md:p-2.5 mt-1"
+                            className={clsx(
+                                `w-full h-10 rounded-md md:rounded-lg bg-white/10 outline outline-white/50 border-r-8 border-transparent text-white text-sm p-4 md:p-2.5 mt-1`,
+                                isStatic ? "bg-white/5 outline outline-white/25 text-gray-500/[0.95]" : ""
+                            )}
                             onChange={(event) => setSortOrder(event.target.value)}
-                            defaultValue="Total EPA">
+                            defaultValue="Total EPA"
+                            disabled={isStatic}>
                             <optgroup>
                                 <option className="bg-slate-800">Total EPA</option>
                                 <option className="bg-slate-800">Total Notes in Auto</option>
@@ -130,8 +144,8 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
                     </form>
                     <button 
                         className="text-sm text-blue-500 underline font-medium mt-3 hover:text-blue-400 bg-transparent"
-                        onClick={() => setModalStatus(true)}>
-                        Save picklist?
+                        onClick={() => picklist_id ? setTimesSaved(timesSaved + 1) : setModalStatus(true) }>
+                        {picklist_id ? "Update picklist order?" : "Save picklist?"}
                     </button>
                 </div>
                 <div></div>
@@ -142,6 +156,9 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
                     data={data}
                     fields={["Total EPA", "Total Notes in Auto", "Total Notes in Speaker", "Total Notes in Amp"]}
                     sortOrder={sortOrder}
+                    isStatic={isStatic}
+                    timesSaved={timesSaved}
+                    picklistName={picklist_id}
                     setBestPick={setBestPick} 
                     setBestSpeakerBot={setBestSpeakerBot}
                     setBestAmpBot={setBestAmpBot} />

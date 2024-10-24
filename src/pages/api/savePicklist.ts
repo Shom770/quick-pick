@@ -24,7 +24,8 @@ export default async function handler(
     else {
       await picklists.insertOne({
         name: body["picklistName"],
-        data: body["data"]
+        data: body["data"],
+        static: false
       })
 
       return res.status(200).json({ message: `Picklist with name '${body["picklistName"]}' created successfully`})
