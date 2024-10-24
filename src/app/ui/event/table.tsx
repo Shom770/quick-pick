@@ -14,6 +14,7 @@ export default function Table({
     isStatic,
     timesSaved,
     picklistName,
+    setAlertInfo,
     setBestPick,
     setBestSpeakerBot,
     setBestAmpBot
@@ -23,7 +24,8 @@ export default function Table({
     sortOrder: string,
     isStatic: boolean,
     timesSaved: number,
-    picklistName?: string
+    picklistName?: string,
+    setAlertInfo: (state: [string, string]) => void,
     setBestPick: (value: PicklistSchema2024) => void,
     setBestSpeakerBot: (value: number) => void,
     setBestAmpBot: (value: number) => void
@@ -69,7 +71,7 @@ export default function Table({
             });
 
             if (response.ok) {
-                alert("New picklist order saved successfully");
+                setAlertInfo(["Success", "New picklist order saved successfully"]);
             }
         }
         

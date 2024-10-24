@@ -10,6 +10,7 @@ import Summarizer from "@/app/ui/event/summarizer";
 import { SummarizerSkeleton, TableSkeleton } from "@/app/ui/skeletons";
 import SaveModal from "@/app/ui/event/save-modal";
 import clsx from "clsx";
+import Alert from "@/app/ui/alert";
 
 function EventPage({ picklist_id } : { picklist_id?: string }) {
     const searchParams = useSearchParams();
@@ -17,7 +18,9 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
     const [data, setData] = useState<PicklistSchema2024[]>([]);
     const [isStatic, setStatic] = useState(false);
     const [sortOrder, setSortOrder] = useState("Total EPA");
+
     const [isModalOpen, setModalStatus] = useState(false);
+    const [[alertType, alertMessage], setAlertInfo] = useState(["", ""]);
 
     // Hacky way to get child component to save the current order of the picklist
     const [timesSaved, setTimesSaved] = useState(0);
@@ -46,17 +49,20 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
         useEffect(
             () => {
                 const fetchData = async () => {
-                    const picklistData = await fetch(`/api/getPicklist?name=${picklist_id}`)
+                    const response = await fetch(`/api/getPicklist?name=${picklist_id}`)
                         .then(response => response.json());
-
-                    if (!picklistData["data"]) {
+                    
+                    if (!response["data"] && response.status != 404) {
+                        setAlertInfo(["Error", response["message"]])
+                    }
+                    else if (response.status == 404) {
                         // Handle later
                     }
                     else {
-                        setData(picklistData["data"]);
+                        setData(response["data"]);
                     }
 
-                    setStatic(picklistData["static"] || false);
+                    setStatic(response["static"] || false);
                 }
                 
                 fetchData()
@@ -81,10 +87,11 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
     if (data.length == 0) {
         return (
             <div className="flex flex-col items-center justify-start md:justify-center w-screen max-h-screen h-auto md:h-screen overflow-y-hidden">
-                <div className="flex flex-col items-center justify-center gap-4 mdx:flex-none md:grid md:grid-cols-5 w-4/5 md:w-5/6 h-2/5 md:h-1/5">
+                {alertMessage && <Alert color={alertType as "Error" | "Success"} message={alertMessage} />}
+                <div className="flex flex-col items-center justify-center gap-4 md:flex-none md:grid md:grid-cols-5 w-4/5 md:w-5/6 h-2/5 md:h-1/5">
                     <div className="flex flex-col items-start justify-center">
                         <h1 className={`${rethinkSans.className} text-[56px] md:text-7xl text-blue-500 font-extrabold`}>picklist</h1>
-                        <form className="w-full md:w-[18rem] mt-2">
+                        <form className="w-full md:w-[18rem] md:mt-2">
                             <label htmlFor="sortOrder" className="font-medium text-sm">Choose metric to sort by</label>
                             <select 
                                 id="sortOrder" 
@@ -120,10 +127,11 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
 
     return (
         <div className="relative flex flex-col items-center justify-start md:justify-center w-screen max-h-screen h-auto md:h-screen overflow-y-hidden">
+            {alertMessage && <Alert color={alertType as "Error" | "Success"} message={alertMessage} />}
             <div className="flex flex-col items-center justify-center gap-4 md:flex-none md:grid md:grid-cols-5 w-4/5 md:w-5/6 h-2/5 md:h-1/5">
                 <div className="flex flex-col items-start justify-center">
                     <h1 className={`${rethinkSans.className} text-[56px] md:text-7xl text-blue-500 font-extrabold`}>picklist</h1>
-                    <form className="w-full md:w-[18rem] mt-2">
+                    <form className="w-full md:w-[18rem] md:mt-2">
                         <label htmlFor="sortOrder" className="font-medium text-sm">Choose metric to sort by</label>
                         <select 
                             id="sortOrder" 
@@ -159,12 +167,13 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
                     isStatic={isStatic}
                     timesSaved={timesSaved}
                     picklistName={picklist_id}
+                    setAlertInfo={setAlertInfo}
                     setBestPick={setBestPick} 
                     setBestSpeakerBot={setBestSpeakerBot}
                     setBestAmpBot={setBestAmpBot} />
             </div>
             <div className={isModalOpen ? '' : 'hidden'}>
-                <SaveModal data={data} setModalStatus={setModalStatus}/>
+                <SaveModal data={data} setModalStatus={setModalStatus} setAlertInfo={setAlertInfo}/>
             </div>
         </div>
     );
