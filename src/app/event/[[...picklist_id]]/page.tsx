@@ -106,7 +106,7 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
                             </select>
                         </form>
                         <button 
-                            className="text-sm text-gray-500 underline font-medium mt-3 bg-transparent"
+                            className="text-sm text-gray-500 underline font-medium mt-2 md:mt-3 bg-transparent"
                             disabled>
                             {picklist_id ? "Update picklist order?" : "Save picklist?"}
                         </button>
@@ -147,7 +147,7 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
                         </select>
                     </form>
                     <button 
-                        className="text-sm text-blue-500 underline font-medium mt-1 md:mt-3 hover:text-blue-400 bg-transparent"
+                        className="text-sm text-blue-500 underline font-medium mt-2 md:mt-3 hover:text-blue-400 bg-transparent"
                         onClick={() => picklist_id ? setTimesSaved(timesSaved + 1) : setModalStatus(true) }>
                         {picklist_id ? "Update picklist order?" : "Save picklist?"}
                     </button>
@@ -155,7 +155,7 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
                 <div></div>
                 <Summarizer bestPick={bestPick} bestSpeakerBot={bestSpeakerBot} bestAmpBot={bestAmpBot} />
             </div>
-            <div className="w-[95vw] md:w-5/6 h-[46%] md:h-1/2 mt-6 md:mt-12 ml-[5vw] md:ml-0">
+            <div className="w-[95vw] md:w-5/6 h-[44%] md:h-1/2 mt-5 md:mt-12 ml-[5vw] md:ml-0">
                 <Table
                     data={data}
                     fields={["Total EPA", "Total Notes in Auto", "Total Notes in Speaker", "Total Notes in Amp"]}
