@@ -19,7 +19,6 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/icon.jpg" sizes="any" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
       </head>
       <body
         className={`${inter.className} antialiased dark bg-[#0d111b]`}
