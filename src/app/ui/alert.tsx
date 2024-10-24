@@ -31,15 +31,14 @@ export default function Alert({ color, message } : { color: "Error" | "Success",
 
     return (
         <div
-            className={`fixed top-12 left-1/2 transform -translate-x-1/2 z-50 flex items-center py-4 w-[95vw] md:w-auto md:px-8 md:mb-4 text-sm border rounded-lg transition-opacity ease-in-out duration-500 ${
+            className={`fixed top-12 left-1/2 transform -translate-x-1/2 z-50 flex items-center justify-center py-4 w-[90vw] md:w-auto md:px-8 md:mb-4 text-sm border rounded-lg transition-opacity ease-in-out duration-500 ${
                 fadingOut ? 'opacity-0' : 'opacity-100'
             } ${colorClasses[color]}`}
             role="alert"
-            style={{ width: 'fit-content', maxWidth: '90%' }}  // Ensure that the alert has a reasonable max width
             >
             {iconToUse[color]}
             <div className="break-words whitespace-normal">
-                <span className="font-medium text-[13px] md:text-base">{color.charAt(0).toUpperCase() + color.slice(1)}</span>: {message}
+                <span className="font-medium md:text-base">{color.charAt(0).toUpperCase() + color.slice(1)}</span>: {message}
             </div>
         </div>
     );
