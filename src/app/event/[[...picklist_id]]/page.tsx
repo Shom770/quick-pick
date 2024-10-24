@@ -30,12 +30,12 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
     useEffect(
         () => {
             if (!picklist_id) {
-                teams = searchParams
+                teams = searchParams!!
                     .get("teams")!!
                     .split("_")
                     .map((value) => parseInt(value));
 
-                const eventCode = searchParams.get("event");
+                const eventCode = searchParams!!.get("event");
 
                 // Create function to set data
                 const fetchData = async () => setData(await fetchDataForTeams(teams, eventCode));
