@@ -7,7 +7,7 @@ const shimmer =
 export function SummarizerSkeleton() {
     return (
         <div className={`${shimmer} relative overflow-hidden col-span-3 bg-slate-800 w-full md:w-auto h-[35%] md:h-3/4 self-center rounded-lg mb-1 md:mb-0`}>
-            <div className="grid grid-cols-2 md:grid-cols-3 w-full h-full md:divide-x md:divide-gray-500/50">
+            <div className="grid grid-cols-2 md:grid-cols-3 w-full h-full p-4 md:divide-x md:divide-gray-500/50">
                 <div className="flex items-center justify-center">
                     <div className="flex flex-col items-start justify-center gap-3">
                         <div className="rounded-lg h-5 w-20 xl:h-5 xl:w-30 bg-slate-700"></div>
