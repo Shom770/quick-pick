@@ -31,7 +31,7 @@ export default function Alert({ color, message } : { color: "Error" | "Success",
 
     return (
         <div
-            className={`fixed top-12 left-1/2 transform -translate-x-1/2 z-50 flex items-center py-4 md:px-8 md:mb-4 text-sm border rounded-lg transition-opacity ease-in-out duration-500 ${
+            className={`fixed top-12 left-1/2 transform -translate-x-1/2 z-50 flex items-center py-4 mx-4 md:mx-0 md:px-8 md:mb-4 text-sm border rounded-lg transition-opacity ease-in-out duration-500 ${
                 fadingOut ? 'opacity-0' : 'opacity-100'
             } ${colorClasses[color]}`}
             role="alert"
