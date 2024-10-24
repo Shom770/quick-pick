@@ -27,27 +27,23 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
 
     let teams: number[] = [];
     
-    if (!picklist_id) {
-        teams = searchParams
-            .get("teams")!!
-            .split("_")
-            .map((value) => parseInt(value));
+    useEffect(
+        () => {
+            if (!picklist_id) {
+                teams = searchParams
+                    .get("teams")!!
+                    .split("_")
+                    .map((value) => parseInt(value));
 
-        const eventCode = searchParams.get("event");
+                const eventCode = searchParams.get("event");
 
-        useEffect(
-            () => {
+                // Create function to set data
                 const fetchData = async () => setData(await fetchDataForTeams(teams, eventCode));
 
                 fetchData()
                     .catch(console.error);
-            },
-            []
-        );
-    }
-    else {
-        useEffect(
-            () => {
+            }
+            else {
                 const fetchData = async () => {
                     const response = await fetch(`/api/getPicklist?name=${picklist_id}`)
                         .then(response => response.json());
@@ -67,10 +63,10 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
                 
                 fetchData()
                     .catch(console.error);
-            },
-            []
-        );
-    }
+            }
+        },
+        [teams, picklist_id]  // Unnecessary, but needed to satisfy linter
+    );
 
     const [bestPick, setBestPick] = useState({
         teamNumber: 0,
