@@ -6,7 +6,7 @@ const shimmer =
 
 export function SummarizerSkeleton() {
     return (
-        <div className={`${shimmer} relative overflow-hidden col-span-3 bg-slate-800 w-full md:w-auto h-1/3 md:h-3/4 self-center rounded-lg`}>
+        <div className={`${shimmer} relative overflow-hidden col-span-3 bg-slate-800 w-full md:w-auto h-[35%] md:h-3/4 self-center rounded-lg mb-1 md:mb-0`}>
             <div className="grid grid-cols-2 md:grid-cols-3 w-full h-full p-4 md:divide-x md:divide-gray-500/50">
                 <div className="flex items-center justify-center">
                     <div className="flex flex-col items-start justify-center gap-3">
@@ -76,7 +76,7 @@ export function TableSkeleton({ fields, rows = 9 } : { fields: string[], rows?: 
                     }
                 </div>
             </div>
-            <div className={clsx(`${shimmer} relative overflow-hidden w-full h-[40vh] md:h-auto overflow-y-auto`, { 'h-[51vh]' : rows >= 9 } )}>
+            <div className={clsx(`${shimmer} relative overflow-hidden w-full h-[46vh] md:h-auto overflow-y-auto`, { 'h-[51vh]' : rows >= 9 } )}>
                 { 
                     Array.from({length: rows}, (_, key) => key).map((rowNumber) => 
                         <TableRowSkeleton key={`row${rowNumber}`} rowNumber={rowNumber} fields={["Team Number", ...fields]} />

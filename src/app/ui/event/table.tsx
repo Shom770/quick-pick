@@ -11,13 +11,21 @@ export default function Table({
     data,
     fields,
     sortOrder,
+    isStatic,
+    timesSaved,
+    picklistName,
+    setAlertInfo,
     setBestPick,
     setBestSpeakerBot,
     setBestAmpBot
 }: { 
     data: PicklistSchema2024[],
     fields: string[], 
-    sortOrder: string ,
+    sortOrder: string,
+    isStatic: boolean,
+    timesSaved: number,
+    picklistName?: string,
+    setAlertInfo: (state: [string, string]) => void,
     setBestPick: (value: PicklistSchema2024) => void,
     setBestSpeakerBot: (value: number) => void,
     setBestAmpBot: (value: number) => void
@@ -26,7 +34,13 @@ export default function Table({
     const [newKey, setNewKey] = useState(0);
 
     useEffect(() => {
-        setDraggedData(sortDataByStat(data, sortOrder as SortOrder));
+        if (!isStatic) {
+            setDraggedData(sortDataByStat(data, sortOrder as SortOrder));
+        }
+        else {
+            setDraggedData(data);
+        }
+        
         setNewKey(newKey + 1);
     }, [sortOrder]);
 
@@ -38,6 +52,35 @@ export default function Table({
         setBestSpeakerBot(bestSpeakerBot(draggedData, activeTeams));
         setBestAmpBot(bestAmpBot(draggedData, activeTeams));
     }, [newKey, draggedData, activeTeams]);
+
+    // Save teams to picklist 
+    useEffect(() => {
+        const saveData = async () => {
+            const payload = {
+                name: picklistName,
+                data: draggedData,
+                static: true
+            };
+
+            const response = await fetch("/api/updatePicklist", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (response.ok) {
+                setAlertInfo(["Success", "New picklist order saved successfully"]);
+            }
+        }
+        
+        if (timesSaved > 0) {
+            saveData()
+                .catch(e => console.error(e));
+        }
+            
+    }, [timesSaved]);
 
     const addTeam = (team: number) => {
         setActiveTeams(prev => [...prev, team]);
