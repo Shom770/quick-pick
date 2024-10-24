@@ -59,7 +59,7 @@ export default function SaveModal({
                     <label htmlFor="picklistName" className="text-xs md:text-sm">Enter picklist name (no spaces)</label>
                     <input 
                         name="picklistName" 
-                        className="w-full h-12 rounded-md bg-slate-800 mt-1 border border-slate-600 px-4 focus:outline-none text-sm md:text-base"
+                        className="w-full h-12 rounded-md bg-slate-800 mt-1 border border-slate-600 px-4 focus:outline-none text-[16px] md:text-base"
                         placeholder="Picklist name" 
                         onChange={(event) => setPicklistName(event.target.value)} />
                     <button type="submit" className="flex flex-row items-center justify-center gap-2 w-full h-12 rounded-md bg-blue-600 hover:bg-blue-500 mt-4 font-extrabold text-[#0d111b] text-base md:text-lg">

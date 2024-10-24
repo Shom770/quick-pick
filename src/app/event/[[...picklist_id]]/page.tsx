@@ -82,7 +82,7 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
     
     if (data.length == 0) {
         return (
-            <div className="flex flex-col items-center justify-start md:justify-center w-screen max-h-screen h-auto md:h-screen overflow-y-hidden">
+            <div className="flex flex-col items-center justify-start md:justify-center w-screen max-h-screen h-screen overflow-y-hidden">
                 {alertMessage && <Alert color={alertType as "Error" | "Success"} message={alertMessage} />}
                 <div className="flex flex-col items-center justify-center gap-4 md:flex-none md:grid md:grid-cols-5 w-4/5 md:w-5/6 h-2/5 md:h-1/5">
                     <div className="flex flex-col items-start justify-center">
