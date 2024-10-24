@@ -124,7 +124,7 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
     return (
         <div className="relative flex flex-col items-center justify-start md:justify-center w-screen max-h-screen h-auto md:h-screen overflow-y-hidden">
             {alertMessage && <Alert color={alertType as "Error" | "Success"} message={alertMessage} />}
-            <div className="flex flex-col items-center justify-center gap-4 md:flex-none md:grid md:grid-cols-5 w-4/5 md:w-5/6 h-2/5 md:h-1/5">
+            <div className="flex flex-col items-center justify-center gap-3 md:gap-4 md:flex-none md:grid md:grid-cols-5 w-4/5 md:w-5/6 h-2/5 md:h-1/5">
                 <div className="flex flex-col items-start justify-center">
                     <h1 className={`${rethinkSans.className} text-[56px] md:text-7xl text-blue-500 font-extrabold`}>picklist</h1>
                     <form className="w-full md:w-[18rem] md:mt-2">
@@ -147,7 +147,7 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
                         </select>
                     </form>
                     <button 
-                        className="text-sm text-blue-500 underline font-medium mt-3 hover:text-blue-400 bg-transparent"
+                        className="text-sm text-blue-500 underline font-medium mt-1 md:mt-3 hover:text-blue-400 bg-transparent"
                         onClick={() => picklist_id ? setTimesSaved(timesSaved + 1) : setModalStatus(true) }>
                         {picklist_id ? "Update picklist order?" : "Save picklist?"}
                     </button>
