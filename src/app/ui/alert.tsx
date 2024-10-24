@@ -13,8 +13,8 @@ export default function Alert({ color, message } : { color: "Error" | "Success",
     }
     
     const iconToUse = {
-        Error: <ExclamationCircleIcon className="text-red-400 flex-shrink-0 inline w-4 h-4 me-2" />,
-        Success: <ShieldCheckIcon className="text-green-400 flex-shrink-0 inline w-4 h-4 me-2" />
+        Error: <ExclamationCircleIcon className="text-red-400 flex-shrink-0 inline w-3 h-3 md:w-4 md:h-4 me-2" />,
+        Success: <ShieldCheckIcon className="text-green-400 flex-shrink-0 inline w-3 h-3 md:w-4 md:h-4 me-2" />
     }
 
     useEffect(() => {
@@ -39,7 +39,7 @@ export default function Alert({ color, message } : { color: "Error" | "Success",
             >
             {iconToUse[color]}
             <div className="break-words whitespace-normal">
-                <span className="font-medium">{color.charAt(0).toUpperCase() + color.slice(1)}</span>: {message}
+                <span className="font-medium text-sm md:text-base">{color.charAt(0).toUpperCase() + color.slice(1)}</span>: {message}
             </div>
         </div>
     );
