@@ -46,19 +46,16 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
             else {
                 const fetchData = async () => {
                     const response = await fetch(`/api/getPicklist?name=${picklist_id}`)
-                        .then(response => response.json());
+                    const content = await response.json();
                     
-                    if (!response["data"] && response.status != 404) {
-                        setAlertInfo(["Error", response["message"]])
-                    }
-                    else if (response.status == 404) {
-                        // Handle later
+                    if (!response.ok) {
+                        setAlertInfo(["Error", content["message"]])
                     }
                     else {
-                        setData(response["data"]);
+                        setData(content["data"]);
                     }
 
-                    setStatic(response["static"] || false);
+                    setStatic(content["static"] || false);
                 }
                 
                 fetchData()
