@@ -84,7 +84,7 @@ async function fetchDataForTeam(team: number, eventCode: string | null): Promise
                 - parseFloat(teamData["epa"]["breakdown"]["auto_processor"]) 
                 - parseFloat(teamData["epa"]["breakdown"]["teleop_processor"])
             ), // todo: make sure this is the right calculation for this
-            endgamePoints: parseFloat(teamData["epa"]["breakdown"]["bargePoints"])
+            endgamePoints: parseFloat(teamData["epa"]["breakdown"]["barge_points"])
         };
     } catch (_) {
         // No error from this year's game.
