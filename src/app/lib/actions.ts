@@ -8,7 +8,7 @@ import { z } from 'zod';
 const EventFormSchema = z.object({
     eventCode: z
         .string()
-        .regex(/^2024/, "Event code doesn't match format: '2024[code]'.")
+        .regex(/^2025/, "Event code doesn't match format: '2025[code]'.")
 });
 
 export type State = {

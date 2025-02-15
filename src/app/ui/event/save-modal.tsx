@@ -1,6 +1,6 @@
 "use client";
 
-import { PicklistSchema2024 } from "@/app/lib/types";
+import { PicklistSchema2025 } from "@/app/lib/types";
 import { rethinkSans } from "@/app/ui/fonts";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
@@ -12,7 +12,7 @@ export default function SaveModal({
     setModalStatus, 
     setAlertInfo 
 } : { 
-    data: PicklistSchema2024[], 
+    data: PicklistSchema2025[], 
     setModalStatus: (state: boolean) => void, 
     setAlertInfo: (state: [string, string]) => void
 }) {

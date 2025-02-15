@@ -1,16 +1,16 @@
-import { PicklistSchema2024, SortOrder } from "@/app/lib/types";
-import { request } from "http";
+import { PicklistSchema2025, SortOrder } from "@/app/lib/types";
 
 export async function fetchDataForTeams(teams: number[], eventCode: string | null) {
     return await Promise.all(teams.map(async (team) => await fetchDataForTeam(team, eventCode)));
 }
 
-export function sortDataByStat(data: PicklistSchema2024[], sortOrder: SortOrder) {
-    const sortOrderToPropertyName: Record<SortOrder, keyof PicklistSchema2024> = {
+export function sortDataByStat(data: PicklistSchema2025[], sortOrder: SortOrder, selectedBranch: string) {
+    const sortOrderToPropertyName: Record<SortOrder, keyof PicklistSchema2025> = {
         "Total EPA": "totalEpa",
-        "Total Notes in Auto": "totalNotesInAuto",
-        "Total Notes in Speaker": "totalNotesInSpeaker",
-        "Total Notes in Amp": "totalNotesInAmp"
+        "Total Coral in Auto": "totalCoralInAuto",
+        "Total Coral on Selected Branch": ("coral" + selectedBranch as "coralL1" | "coralL2" | "coralL3" | "coralL4"),
+        "Total Algae in Net": "totalAlgaeInNet",
+        "Endgame Points": "endgamePoints"
     }
 
     return data.sort((d1, d2) => d1[sortOrderToPropertyName[sortOrder]] - d2[sortOrderToPropertyName[sortOrder]]).reverse();
@@ -48,7 +48,7 @@ export async function fetchTeamsForEvent(eventCode: string): Promise<number[]> {
     return eventData.map((team: Record<string, string | number>) => team["team_number"]);
 }
 
-async function fetchDataForTeam(team: number, eventCode: string | null): Promise<PicklistSchema2024> {
+async function fetchDataForTeam(team: number, eventCode: string | null): Promise<PicklistSchema2025> {
     const requestHeaders: HeadersInit = new Headers();
     requestHeaders.set('Access-Control-Allow-Origin', 'https://quick-pick-psi.vercel.app');
 
@@ -70,12 +70,21 @@ async function fetchDataForTeam(team: number, eventCode: string | null): Promise
     try {
         return {
             teamNumber: team,
-            totalEpa: parseFloat(teamData["epa"]["breakdown"]["total_points"]["mean"]),
-            autoEpa: parseFloat(teamData["epa"]["breakdown"]["auto_points"]["mean"]),
-            teleopEpa: parseFloat(teamData["epa"]["breakdown"]["teleop_points"]["mean"]),
-            totalNotesInAuto: parseFloat(teamData["epa"]["breakdown"]["auto_notes"]["mean"]),
-            totalNotesInSpeaker: parseFloat(teamData["epa"]["breakdown"]["speaker_notes"]["mean"]),
-            totalNotesInAmp: parseFloat(teamData["epa"]["breakdown"]["amp_notes"]["mean"])
+            totalEpa: parseFloat(teamData["epa"]["breakdown"]["total_points"]), // todo: gonna have to switch to mean when calculations start
+            autoEpa: parseFloat(teamData["epa"]["breakdown"]["auto_points"]),
+            teleopEpa: parseFloat(teamData["epa"]["breakdown"]["teleop_points"]),
+            totalCoralInAuto: parseFloat(teamData["epa"]["breakdown"]["auto_coral"]),
+            coralL1: parseFloat(teamData["epa"]["breakdown"]["coral_l1"]),
+            coralL2: parseFloat(teamData["epa"]["breakdown"]["coral_l2"]),
+            coralL3: parseFloat(teamData["epa"]["breakdown"]["coral_l3"]),
+            coralL4: parseFloat(teamData["epa"]["breakdown"]["coral_l4"]),
+            totalAlgaeInNet: (
+                parseFloat(teamData["epa"]["breakdown"]["auto_algae"]) 
+                + parseFloat(teamData["epa"]["breakdown"]["teleop_algae"]) 
+                - parseFloat(teamData["epa"]["breakdown"]["auto_processor"]) 
+                - parseFloat(teamData["epa"]["breakdown"]["teleop_processor"])
+            ), // todo: make sure this is the right calculation for this
+            endgamePoints: parseFloat(teamData["epa"]["breakdown"]["bargePoints"])
         };
     } catch (_) {
         // No error from this year's game.
@@ -84,9 +93,13 @@ async function fetchDataForTeam(team: number, eventCode: string | null): Promise
             totalEpa: 0,
             autoEpa: 0,
             teleopEpa: 0,
-            totalNotesInAuto: 0,
-            totalNotesInAmp: 0,
-            totalNotesInSpeaker: 0
+            totalCoralInAuto: 0,
+            coralL1: 0,
+            coralL2: 0,
+            coralL3: 0,
+            coralL4: 0,
+            totalAlgaeInNet: 0,
+            endgamePoints: 0
         }
     }
 }

@@ -1,7 +1,7 @@
-import { PicklistSchema2024 } from "@/app/lib/types";
+import { PicklistSchema2025 } from "@/app/lib/types";
 import { rethinkSans } from "@/app/ui/fonts";
 
-export default function Summarizer({ bestPick, bestSpeakerBot, bestAmpBot } : { bestPick: PicklistSchema2024, bestSpeakerBot: number, bestAmpBot: number }) {
+export default function Summarizer({ bestPick, bestCoralBot, bestAlgaeBot } : { bestPick: PicklistSchema2025, bestCoralBot: number, bestAlgaeBot: number }) {
     return (
         <div className="relative col-span-3 bg-slate-800 w-full md:w-auto h-[35%] md:h-3/4 self-center rounded-lg mb-1 md:mb-0">
             <div className="grid grid-cols-2 md:grid-cols-3 w-full h-full p-4 md:divide-x md:divide-gray-500/50">
@@ -21,14 +21,14 @@ export default function Summarizer({ bestPick, bestSpeakerBot, bestAmpBot } : { 
                 </div>
                 <div className="hidden md:flex items-center justify-center">
                     <div className="flex flex-col items-start justify-center">
-                        <h1 className={`${rethinkSans.className} antialiased font-extrabold text-lg xl:text-2xl`}>best speaker bot</h1>
-                        <h1 className={`${rethinkSans.className} antialiased font-extrabold text-5xl 2xl:text-6xl text-blue-500 -mt-1`}>{bestSpeakerBot ? bestSpeakerBot : "—"}</h1>
+                        <h1 className={`${rethinkSans.className} antialiased font-extrabold text-lg xl:text-2xl`}>best coral bot</h1>
+                        <h1 className={`${rethinkSans.className} antialiased font-extrabold text-5xl 2xl:text-6xl text-blue-500 -mt-1`}>{bestCoralBot ? bestCoralBot : "—"}</h1>
                     </div>
                 </div>
                 <div className="hidden md:flex items-center justify-center">
                     <div className="flex flex-col items-start justify-center">
-                        <h1 className={`${rethinkSans.className} antialiased font-extrabold text-lg xl:text-2xl`}>best amp bot</h1>
-                        <h1 className={`${rethinkSans.className} antialiased font-extrabold text-5xl 2xl:text-6xl text-blue-500 -mt-1`}>{bestAmpBot ? bestAmpBot : "—"}</h1>
+                        <h1 className={`${rethinkSans.className} antialiased font-extrabold text-lg xl:text-2xl`}>best algae bot</h1>
+                        <h1 className={`${rethinkSans.className} antialiased font-extrabold text-5xl 2xl:text-6xl text-blue-500 -mt-1`}>{bestAlgaeBot ? bestAlgaeBot : "—"}</h1>
                     </div>
                 </div>
             </div>

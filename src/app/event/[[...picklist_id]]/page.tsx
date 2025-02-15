@@ -5,7 +5,7 @@ import { useState, useEffect, Suspense } from "react";
 import { rethinkSans } from "@/app/ui/fonts";
 import Table from "@/app/ui/event/table";
 import { fetchDataForTeams } from "@/app/lib/data";
-import { PicklistSchema2024 } from "@/app/lib/types";
+import { emptySchema, PicklistSchema2025 } from "@/app/lib/types";
 import Summarizer from "@/app/ui/event/summarizer";
 import { SummarizerSkeleton, TableSkeleton } from "@/app/ui/skeletons";
 import SaveModal from "@/app/ui/event/save-modal";
@@ -15,7 +15,7 @@ import Alert from "@/app/ui/alert";
 function EventPage({ picklist_id } : { picklist_id?: string }) {
     const searchParams = useSearchParams();
     
-    const [data, setData] = useState<PicklistSchema2024[]>([]);
+    const [data, setData] = useState<PicklistSchema2025[]>([]);
     const [isStatic, setStatic] = useState(false);
     const [sortOrder, setSortOrder] = useState("Total EPA");
 
@@ -65,17 +65,9 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
         [teams, picklist_id]  // Unnecessary, but needed to satisfy linter
     );
 
-    const [bestPick, setBestPick] = useState({
-        teamNumber: 0,
-        totalEpa: 0,
-        autoEpa: 0,
-        teleopEpa: 0,
-        totalNotesInAuto: 0,
-        totalNotesInAmp: 0,
-        totalNotesInSpeaker: 0
-    } as PicklistSchema2024);
-    const [bestSpeakerBot, setBestSpeakerBot] = useState(0);
-    const [bestAmpBot, setBestAmpBot] = useState(0);
+    const [bestPick, setBestPick] = useState(emptySchema);
+    const [bestCoralBot, setBestCoralBot] = useState(0);
+    const [bestAlgaeBot, setBestAlgaeBot] = useState(0);
     
     if (data.length == 0) {
         return (
@@ -112,7 +104,7 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
                     <SummarizerSkeleton />
                 </div>
                 <div className="w-[95vw] md:w-5/6 h-[42%] md:h-1/2 mt-5 md:mt-12 ml-[5vw] md:ml-0">
-                    <TableSkeleton fields={["Total EPA", "Total Notes in Auto", "Total Notes in Speaker", "Total Notes in Amp"]} rows={Math.min(teams.length > 0 ? teams.length : 9, 9)}/>
+                    <TableSkeleton fields={["Total EPA", "Total Coral in Auto", "Total Coral on Selected Branch", "Total Algae in Net", "Endgame Points"]} rows={Math.min(teams.length > 0 ? teams.length : 9, 9)}/>
                 </div>
             </div>
         )
@@ -137,9 +129,10 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
                             disabled={isStatic}>
                             <optgroup>
                                 <option className="bg-slate-800">Total EPA</option>
-                                <option className="bg-slate-800">Total Notes in Auto</option>
-                                <option className="bg-slate-800">Total Notes in Speaker</option>
-                                <option className="bg-slate-800">Total Notes in Amp</option>
+                                <option className="bg-slate-800">Total Coral in Auto</option>
+                                <option className="bg-slate-800">Total Coral on Selected Branch</option>
+                                <option className="bg-slate-800">Total Algae in Net</option>
+                                <option className="bg-slate-800">Endgame Points</option>
                             </optgroup>
                         </select>
                     </form>
@@ -150,20 +143,20 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
                     </button>
                 </div>
                 <div></div>
-                <Summarizer bestPick={bestPick} bestSpeakerBot={bestSpeakerBot} bestAmpBot={bestAmpBot} />
+                <Summarizer bestPick={bestPick} bestCoralBot={bestCoralBot} bestAlgaeBot={bestAlgaeBot} />
             </div>
             <div className="w-[95vw] md:w-5/6 h-[42%] md:h-1/2 mt-5 md:mt-12 ml-[5vw] md:ml-0">
                 <Table
                     data={data}
-                    fields={["Total EPA", "Total Notes in Auto", "Total Notes in Speaker", "Total Notes in Amp"]}
+                    fields={["Total EPA", "Total Coral in Auto", "Total Coral on [Branch]", "Total Algae in Net", "Endgame Points"]}
                     sortOrder={sortOrder}
                     isStatic={isStatic}
                     timesSaved={timesSaved}
                     picklistName={picklist_id}
                     setAlertInfo={setAlertInfo}
                     setBestPick={setBestPick} 
-                    setBestSpeakerBot={setBestSpeakerBot}
-                    setBestAmpBot={setBestAmpBot} />
+                    setBestCoralBot={setBestCoralBot}
+                    setBestAlgaeBot={setBestAlgaeBot} />
             </div>
             <div className={isModalOpen ? '' : 'hidden'}>
                 <SaveModal data={data} setModalStatus={setModalStatus} setAlertInfo={setAlertInfo}/>

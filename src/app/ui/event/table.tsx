@@ -2,9 +2,9 @@
 
 import TableRow from "@/app/ui/event/table-row";
 import { sortDataByStat } from "@/app/lib/data";
-import { PicklistSchema2024, SortOrder } from "@/app/lib/types";
+import { Branches, PicklistSchema2024, PicklistSchema2025, SortOrder } from "@/app/lib/types";
 import { useEffect, useState } from "react";
-import { bestAmpBot, bestOverallPick, bestSpeakerBot } from "@/app/lib/utils";
+import { bestAlgaeBot, bestOverallPick, bestCoralBot } from "@/app/lib/utils";
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 
 export default function Table({
@@ -16,26 +16,27 @@ export default function Table({
     picklistName,
     setAlertInfo,
     setBestPick,
-    setBestSpeakerBot,
-    setBestAmpBot
+    setBestCoralBot,
+    setBestAlgaeBot
 }: { 
-    data: PicklistSchema2024[],
+    data: PicklistSchema2025[],
     fields: string[], 
     sortOrder: string,
     isStatic: boolean,
     timesSaved: number,
     picklistName?: string,
     setAlertInfo: (state: [string, string]) => void,
-    setBestPick: (value: PicklistSchema2024) => void,
-    setBestSpeakerBot: (value: number) => void,
-    setBestAmpBot: (value: number) => void
+    setBestPick: (value: PicklistSchema2025) => void,
+    setBestCoralBot: (value: number) => void,
+    setBestAlgaeBot: (value: number) => void
 }) {
     // Hacky solution to update the DragDropContext
     const [newKey, setNewKey] = useState(0);
+    const [branch, setBranch] = useState<Branches>("L4");
 
     useEffect(() => {
         if (!isStatic) {
-            setDraggedData(sortDataByStat(data, sortOrder as SortOrder));
+            setDraggedData(sortDataByStat(data, sortOrder as SortOrder, branch));
         }
         else {
             setDraggedData(data);
@@ -45,12 +46,12 @@ export default function Table({
     }, [sortOrder]);
 
     const [activeTeams, setActiveTeams] = useState<number[]>(data.map(value => value.teamNumber));
-    const [draggedData, setDraggedData] = useState<PicklistSchema2024[]>([]);
+    const [draggedData, setDraggedData] = useState<PicklistSchema2025[]>([]);
 
     useEffect(() => {
         setBestPick(bestOverallPick(draggedData, activeTeams));
-        setBestSpeakerBot(bestSpeakerBot(draggedData, activeTeams));
-        setBestAmpBot(bestAmpBot(draggedData, activeTeams));
+        setBestCoralBot(bestCoralBot(draggedData, activeTeams));
+        setBestAlgaeBot(bestAlgaeBot(draggedData, activeTeams));
     }, [newKey, draggedData, activeTeams]);
 
     // Save teams to picklist 
@@ -102,7 +103,7 @@ export default function Table({
 
     return (
         <div className="overflow-x-scroll md:overflow-x-clip min-h-1/2 md:min-h-3/5 overscroll-none">
-            <div className="flex flex-row items-center justify-start gap-3 mx-auto w-[215vw] md:w-auto h-10 rounded-t-lg bg-transparent md:bg-gray-700/50 border-b border-gray-500 md:border-none mr-2 md:mr-0">
+            <div className="flex flex-row items-center justify-start gap-3 mx-auto w-[240vw] md:w-auto h-14 rounded-t-lg bg-transparent md:bg-gray-700/50 border-b border-gray-500 md:border-none mr-2 md:mr-0">
                 <div className="relative w-4 h-4">
                     <input
                         type="checkbox"
@@ -112,11 +113,31 @@ export default function Table({
                 </div>
                 <div className="flex flex-row items-center justify-between w-full ml-6 md:ml-16">
                     <div className="w-[35vw] md:w-1/6">
-                        <p className="font-bold text-[13px] lg:text-[13px] xl:text-sm whitespace-nowrap ml-2 md:ml-0">Team Number</p>
+                        <p className="font-bold text-[12px] lg:text-[13px] xl:text-sm whitespace-nowrap ml-2 md:ml-0">Team Number</p>
                     </div>
                     {fields.map(name => (
-                        <div key={name} className="w-[35vw] md:w-1/6 ml-4 md:ml-0">
-                            <p className="font-bold text-[13px] whitespace-nowrap lg:text-[13px] xl:text-sm px-2 md:px-0">{name}</p>
+                        <div key={name} className={`${name.includes('[Branch]') ? 'w-[40vw]' : 'w-[35vw]'} md:w-1/6 ml-4 md:ml-0`}>
+                            {
+                                name.includes("[Branch]") ? (
+                                    <div className="flex flex-row w-3/5 md:w-full items-center gap-2">
+                                        <p className="font-bold text-[12px] whitespace-nowrap lg:text-[13px] xl:text-sm px-2 md:px-0"><span className="hidden md:inline-block">Total</span> Coral on</p>
+                                        <select 
+                                            id="branchChooser" 
+                                            className="w-[68px] h-9 md:h-10 rounded-md bg-white/10 outline outline-white/25 border-r-8 border-transparent text-white text-[13px] xl:text-sm font-bold p-1 md:p-2.5"
+                                            onChange={(event) => setBranch(event.target.value as Branches)}
+                                            defaultValue="L4">
+                                            <optgroup>
+                                                <option className="bg-slate-800">L1</option>
+                                                <option className="bg-slate-800">L2</option>
+                                                <option className="bg-slate-800">L3</option>
+                                                <option className="bg-slate-800">L4</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                ) : (
+                                    <p className="font-bold text-[12px] whitespace-nowrap lg:text-[13px] xl:text-sm px-2 md:px-0">{name}</p>
+                                )
+                            }
                         </div>
                     ))}
                 </div>
@@ -125,7 +146,7 @@ export default function Table({
                 <Droppable droppableId="tableRows">
                     {(provided) => (
                         <div
-                            className="w-[215vw] md:w-full h-[46vh] md:h-[51vh] overflow-y-auto"
+                            className="w-[240vw] md:w-full h-[46vh] md:h-[51vh] overflow-y-auto"
                             {...provided.droppableProps}
                             ref={provided.innerRef}
                         >
@@ -144,6 +165,7 @@ export default function Table({
                                             <TableRow
                                                 key={datum.teamNumber}
                                                 data={datum}
+                                                selectedBranch={branch}
                                                 addTeam={addTeam}
                                                 removeTeam={removeTeam}
                                                 currentlyActive={activeTeams.includes(datum.teamNumber)}
