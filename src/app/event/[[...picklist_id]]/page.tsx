@@ -85,12 +85,14 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
                                   isStatic ? "disabled" : ""
                                 )}
                                 onChange={(event) => setSortOrder(event.target.value)}
-                                defaultValue="Total EPA">
+                                defaultValue="Total EPA"
+                                disabled>
                                 <optgroup>
                                     <option className="bg-slate-800">Total EPA</option>
-                                    <option className="bg-slate-800">Total Notes in Auto</option>
-                                    <option className="bg-slate-800">Total Notes in Speaker</option>
-                                    <option className="bg-slate-800">Total Notes in Amp</option>
+                                    <option className="bg-slate-800">Total Coral in Auto</option>
+                                    <option className="bg-slate-800">Total Coral on Selected Branch</option>
+                                    <option className="bg-slate-800">Total Algae in Net</option>
+                                    <option className="bg-slate-800">Endgame Points</option>
                                 </optgroup>
                             </select>
                         </form>
