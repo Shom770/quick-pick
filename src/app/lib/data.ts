@@ -55,7 +55,7 @@ async function fetchDataForTeam(team: number, eventCode: string | null): Promise
     let teamData: Record<string, any>;
 
     if (!eventCode) {
-        teamData = await fetch(`https://api.statbotics.io/v3/team_year/${team}/2024`, {
+        teamData = await fetch(`https://api.statbotics.io/v3/team_year/${team}/2025`, {
             headers: requestHeaders
         })
             .then((response) => response.json());
