@@ -1,4 +1,4 @@
-import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
+import { CalendarIcon, PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import Link from "next/link";
 import Image from "next/image";
 import { rethinkSans } from "@/app/ui/fonts";
@@ -27,11 +27,19 @@ export default function Home() {
           <Link
             key="Choose an Event"
             href="/event/create"
-            className="flex flex-row gap-2 items-center justify-center w-full rounded-lg px-3 py-2 bg-blue-600 text-[#0d111b] text-lg font-bold mt-6 hover:bg-blue-500"
+            className="flex flex-row gap-3 items-center justify-center w-full rounded-lg px-3 py-2 bg-blue-600 text-[#0d111b] text-lg font-bold mt-6 hover:bg-blue-500"
           > 
-            <p>Choose an Event</p>
             <PaperAirplaneIcon className="w-5 h-5" />
+            <p>Choose an Event</p>
           </Link>
+          {/* <Link
+            key="View Upcoming Events"
+            href="/event/upcoming"
+            className="flex flex-row gap-3 items-center justify-center w-full rounded-lg px-3 py-2 bg-blue-500 text-[#0d111b] text-lg font-bold mt-3 hover:bg-blue-400"
+          > 
+            <CalendarIcon className="w-5 h-5" />
+            <p>View Upcoming Events</p>
+          </Link> */}
         </div>
       </div>
       <div className="hidden md:flex items-center justify-center z-0">
