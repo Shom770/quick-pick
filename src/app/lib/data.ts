@@ -78,12 +78,7 @@ async function fetchDataForTeam(team: number, eventCode: string | null): Promise
             coralL2: parseFloat(teamData["epa"]["breakdown"]["coral_l2"]),
             coralL3: parseFloat(teamData["epa"]["breakdown"]["coral_l3"]),
             coralL4: parseFloat(teamData["epa"]["breakdown"]["coral_l4"]),
-            totalAlgaeInNet: (
-                parseFloat(teamData["epa"]["breakdown"]["auto_algae"]) 
-                + parseFloat(teamData["epa"]["breakdown"]["teleop_algae"]) 
-                - parseFloat(teamData["epa"]["breakdown"]["auto_processor"]) 
-                - parseFloat(teamData["epa"]["breakdown"]["teleop_processor"])
-            ), // todo: make sure this is the right calculation for this
+            totalAlgaeInNet: parseFloat(teamData["epa"]["breakdown"]["net_algae"]),
             endgamePoints: parseFloat(teamData["epa"]["breakdown"]["barge_points"])
         };
     } catch (_) {
