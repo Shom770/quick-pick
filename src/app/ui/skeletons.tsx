@@ -43,7 +43,7 @@ export function TableRowSkeleton({ fields, rowNumber } : { fields: string[], row
             </div>
             <div className="flex flex-row items-center justify-between w-full ml-6 md:ml-16">
                 { fields.map((value) => (
-                        <div key={`row${value}`} className="flex items-center w-[35vw] md:w-1/6 h-14 border-l border-gray-500/50 md:h-auto md:border-none">
+                        <div key={`row${value}`} className="flex items-center w-[35vw] md:w-1/4 h-14 border-l border-gray-500/50 md:h-auto md:border-none">
                             <div key={`${rowNumber}${value}`} className="bg-slate-700/50 rounded-lg h-6 w-3/5 md:w-1/4 ml-4 md:ml-0 px-2 md:px-0"></div>
                         </div>
                     )
@@ -62,34 +62,14 @@ export function TableSkeleton({ fields, rows = 9 } : { fields: string[], rows?: 
                     <input type="checkbox" className="appearance-none w-4 h-4 ml-4 bg-gray-500 bg-opacity-50 border-2 border-gray-500 rounded-sm focus:ring-0 checked:bg-red-400/25 checked:border-red-400/50" disabled />
                 </div>
                 <div className="flex flex-row items-center justify-between w-full ml-6 md:ml-16">
-                    <div className="w-[35vw] md:w-1/6">
+                    <div className="w-[35vw] md:w-1/4">
                         <p className="font-bold text-[13px] ml-2 xl:text-sm whitespace-nowrap">Team Number</p>
                     </div>
                     {
                         fields.map(
                             (name) => (
-                                <div key={name}className={`${name.includes('Selected Branch') ? 'w-[40vw]' : 'w-[35vw]'} md:w-1/6 ml-4 md:ml-0`}>
-                                    {
-                                        name.includes("Selected Branch") ? (
-                                            <div className="flex flex-row w-3/5 md:w-full items-center gap-2">
-                                                <p className="font-bold text-[12px] whitespace-nowrap lg:text-[13px] xl:text-sm px-2 md:px-0"><span className="hidden md:inline-block">Total</span> Coral on</p>
-                                                <select 
-                                                    id="branchChooser" 
-                                                    className="w-[68px] h-9 md:h-10 rounded-md bg-white/10 outline outline-white/25 border-r-8 border-transparent text-white text-[13px] xl:text-sm font-bold p-1 md:p-2.5"
-                                                    defaultValue="L4"
-                                                    disabled>
-                                                    <optgroup>
-                                                        <option className="bg-slate-800">L1</option>
-                                                        <option className="bg-slate-800">L2</option>
-                                                        <option className="bg-slate-800">L3</option>
-                                                        <option className="bg-slate-800">L4</option>
-                                                    </optgroup>
-                                                </select>
-                                            </div>
-                                        ) : (
-                                            <p className="font-bold text-[12px] whitespace-nowrap lg:text-[13px] xl:text-sm px-2 md:px-0">{name}</p>
-                                        )
-                                    }
+                                <div key={name} className="w-[35vw] md:w-1/4 ml-4 md:ml-0">
+                                    <p className="font-bold text-[12px] whitespace-nowrap lg:text-[13px] xl:text-sm px-2 md:px-0">{name}</p>
                                 </div>
                             )
                         )

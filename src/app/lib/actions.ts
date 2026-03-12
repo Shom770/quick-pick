@@ -8,7 +8,7 @@ import { z } from 'zod';
 const EventFormSchema = z.object({
     eventCode: z
         .string()
-        .regex(/^2025/, "Event code doesn't match format: '2025[code]'.")
+        .regex(/^2026/, "Event code doesn't match format: '2026[code]'.")
 });
 
 export type State = {
@@ -28,21 +28,20 @@ export async function fetchEvent(prevState: State, formData: FormData)  {
 
     const { eventCode } = validatedInput.data;
     const teams = await fetchTeamsForEvent(eventCode);
-    const isInSeason = await isEventInSeason(eventCode);
 
     if (teams.length == 0) {
         return {
             errors: ["This event doesn't exist."],
         };
     }
-    else {
-        revalidatePath('/event');
 
-        if (isInSeason) {
-            redirect(`/event?teams=${teams.join("_")}&event=${eventCode}`);
-        }
-        else {
-            redirect(`/event?teams=${teams.join("_")}`)
-        }
+    const isInSeason = await isEventInSeason(eventCode);
+    revalidatePath('/event');
+
+    if (isInSeason) {
+        redirect(`/event?teams=${teams.join("_")}&event=${eventCode}`);
+    }
+    else {
+        redirect(`/event?teams=${teams.join("_")}`)
     }
 }

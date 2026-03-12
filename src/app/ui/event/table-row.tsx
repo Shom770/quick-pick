@@ -1,52 +1,55 @@
 'use client';
 
 import clsx from 'clsx';
-import { useState, memo } from "react";
-import { PicklistSchema2025 } from "@/app/lib/types";
+import { memo, useState, useEffect, useRef } from "react";
+import { PicklistSchema2026 } from "@/app/lib/types";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { rethinkSans } from "@/app/ui/fonts";
 
 const TableRow = memo(function TableRow({
     data, 
-    selectedBranch,
+    note,
+    onNoteChange,
     addTeam, 
     removeTeam,
     currentlyActive,
     isDragging
 }: { 
-    data: PicklistSchema2025, 
-    selectedBranch: string,
+    data: PicklistSchema2026,
+    note: string,
+    onNoteChange: (note: string) => void,
     addTeam: (team: number) => void, 
     removeTeam: (team: number) => void,
     currentlyActive: boolean,
     isDragging: boolean
 }) { 
-    const [isActive, setActive] = useState(currentlyActive);
+    const [isActive, setActive] = [currentlyActive, (value: boolean) => {
+        if (value) addTeam(data["teamNumber"]);
+        else removeTeam(data["teamNumber"]);
+    }];
+
+    const [noteOpen, setNoteOpen] = useState(false);
+    const popoverRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (popoverRef.current && !popoverRef.current.contains(e.target as Node)) {
+                setNoteOpen(false);
+            }
+        };
+        if (noteOpen) document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [noteOpen]);
 
     const changeActiveness = (value: boolean) => {
         setActive(value);
-
-        if (value) {
-            addTeam(data["teamNumber"])
-        }
-        else {
-            removeTeam(data["teamNumber"])
-        }
     }
-
-    const isDisabled = () => {
-        return !isActive || data["teamNumber"]
-    }
-
-    const branchKey = `coral${selectedBranch}`
 
     const filteredData = {
-        "teamNumber": data.teamNumber.toFixed(2),
         "totalEpa": data.totalEpa.toFixed(2),
-        "autoEpa": data.autoEpa.toFixed(2),
-        "teleopEpa": data.teleopEpa.toFixed(2),
-        "totalCoralInAuto": data.totalCoralInAuto.toFixed(2),
-        "coralOnBranch": data[branchKey as "coralL1" | "coralL2" | "coralL3" | "coralL4"].toFixed(2),
-        "totalAlgaeInNet": data.totalAlgaeInNet.toFixed(2),
-        "endgamePoints": data.endgamePoints.toFixed(2)
+        "autoFuel": data.autoFuel.toFixed(2),
+        "teleopAndEndgameFuel": data.teleopAndEndgameFuel.toFixed(2),
+        "totalTowerPoints": data.totalTowerPoints.toFixed(2)
     }
 
     return (
@@ -71,16 +74,55 @@ const TableRow = memo(function TableRow({
                 </svg>
             </div>
             <div className="flex flex-row items-center justify-between w-full ml-6 md:ml-16">
-                <div key={data.teamNumber} className="flex items-center w-[35vw] md:w-1/6 border-l border-gray-500/50 h-14 md:border-none md:h-auto">
-                    <p className={clsx("text-lg md:text-sm lg:text-base ml-4 md:ml-0" , { "text-gray-500" : !isActive })} suppressHydrationWarning>{data.teamNumber}</p>
+                <div className="relative flex items-center gap-2 w-[35vw] md:w-1/4 border-l border-gray-500/50 h-14 md:border-none md:h-auto">
+                    <p className={clsx("text-lg md:text-sm lg:text-base ml-4 md:ml-0", { "text-gray-500": !isActive })} suppressHydrationWarning>{data.teamNumber}</p>
+                    <button
+                        onMouseDown={(e) => e.stopPropagation()}
+                        onClick={(e) => { e.stopPropagation(); setNoteOpen(v => !v); }}
+                        className={clsx(
+                            "flex-shrink-0 p-0.5 rounded transition-colors",
+                            note ? "text-blue-400 hover:text-blue-300" : "text-gray-600 hover:text-gray-400"
+                        )}
+                        title={note || "Add note"}
+                    >
+                        <PencilSquareIcon className="w-3.5 h-3.5" />
+                    </button>
+                    {noteOpen && (
+                        <div
+                            ref={popoverRef}
+                            onMouseDown={(e) => e.stopPropagation()}
+                            className="absolute z-20 top-full left-0 mt-2 w-64 bg-slate-800/95 backdrop-blur-sm border border-white/10 rounded-xl shadow-2xl overflow-hidden"
+                        >
+                            <div className="flex items-center justify-between px-3 pt-2.5 pb-1.5 border-b border-white/10">
+                                <p className={`${rethinkSans.className} text-[11px] font-bold text-gray-400 uppercase tracking-widest`}>
+                                    Team {data.teamNumber}
+                                </p>
+                                {note && (
+                                    <button
+                                        onMouseDown={(e) => e.stopPropagation()}
+                                        onClick={(e) => { e.stopPropagation(); onNoteChange(''); }}
+                                        className="text-[10px] text-gray-600 hover:text-red-400 transition-colors"
+                                    >
+                                        clear
+                                    </button>
+                                )}
+                            </div>
+                            <textarea
+                                autoFocus
+                                value={note}
+                                onChange={(e) => onNoteChange(e.target.value)}
+                                placeholder="Type a note..."
+                                rows={3}
+                                className="w-full bg-transparent text-sm text-white placeholder-gray-600 focus:outline-none resize-none px-3 py-2.5"
+                            />
+                        </div>
+                    )}
                 </div>
-                { Object.entries(filteredData).filter(([property, _]) => !(["teamNumber", "autoEpa", "teleopEpa"].includes(property))).map(([name, value]) => (
-                      <div key={name + data.teamNumber} className={`flex items-center ${name == "coralOnBranch" ? 'w-[40vw]' : 'w-[35vw]'} md:w-1/6 h-14 border-l border-gray-500/50 md:h-auto md:border-none`}>
-                          <p className={clsx("text-lg md:text-sm lg:text-base ml-4 md:ml-0 px-2 md:px-0", { "text-gray-500" : !isActive })} suppressHydrationWarning>{value}</p>
-                      </div>
-                    )
-                  )
-                }
+                {Object.entries(filteredData).map(([name, value]) => (
+                    <div key={name + data.teamNumber} className="flex items-center w-[35vw] md:w-1/4 h-14 border-l border-gray-500/50 md:h-auto md:border-none">
+                        <p className={clsx("text-lg md:text-sm lg:text-base ml-4 md:ml-0 px-2 md:px-0", { "text-gray-500": !isActive })} suppressHydrationWarning>{value}</p>
+                    </div>
+                ))}
             </div>
         </div>
     );

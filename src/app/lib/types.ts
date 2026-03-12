@@ -21,20 +21,26 @@ export type PicklistSchema2025 = BasePicklistSchema & {
     endgamePoints: number
 }
 
-export type Branches = "L1" | "L2" | "L3" | "L4"
+export type PicklistSchema2026 = BasePicklistSchema & {
+    autoFuel: number,
+    teleopAndEndgameFuel: number,
+    totalTowerPoints: number
+}
 
-export type SortOrder = "Total EPA" | "Total Coral in Auto" | "Total Coral on Selected Branch" | "Total Algae in Net" | "Endgame Points";
+export type Notes = Record<number, string>
 
-export const emptySchema: PicklistSchema2025 = {
+export type SortOrder =
+    "Total EPA" |
+    "Auto Fuel" |
+    "Teleop + Endgame Fuel" |
+    "Total Tower Points";
+
+export const emptySchema: PicklistSchema2026 = {
     teamNumber: 0,
     totalEpa: 0,
     autoEpa: 0,
     teleopEpa: 0,
-    totalCoralInAuto: 0,
-    coralL1: 0,
-    coralL2: 0,
-    coralL3: 0,
-    coralL4: 0,
-    totalAlgaeInNet: 0,
-    endgamePoints: 0
+    autoFuel: 0,
+    teleopAndEndgameFuel: 0,
+    totalTowerPoints: 0
 }

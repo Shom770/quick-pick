@@ -2,9 +2,9 @@
 
 import TableRow from "@/app/ui/event/table-row";
 import { sortDataByStat } from "@/app/lib/data";
-import { Branches, PicklistSchema2024, PicklistSchema2025, SortOrder } from "@/app/lib/types";
+import { Notes, PicklistSchema2026, SortOrder } from "@/app/lib/types";
 import { useEffect, useState } from "react";
-import { bestAlgaeBot, bestOverallPick, bestCoralBot } from "@/app/lib/utils";
+import { bestAutoBot, bestOverallPick, bestTeleopBot } from "@/app/lib/utils";
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 
 export default function Table({
@@ -14,29 +14,31 @@ export default function Table({
     isStatic,
     timesSaved,
     picklistName,
+    notes,
+    updateNote,
     setAlertInfo,
     setBestPick,
-    setBestCoralBot,
-    setBestAlgaeBot
+    setBestAutoBot,
+    setBestTeleopBot
 }: { 
-    data: PicklistSchema2025[],
+    data: PicklistSchema2026[],
     fields: string[], 
     sortOrder: string,
     isStatic: boolean,
     timesSaved: number,
     picklistName?: string,
+    notes: Notes,
+    updateNote: (team: number, note: string) => void,
     setAlertInfo: (state: [string, string]) => void,
-    setBestPick: (value: PicklistSchema2025) => void,
-    setBestCoralBot: (value: number) => void,
-    setBestAlgaeBot: (value: number) => void
+    setBestPick: (value: PicklistSchema2026) => void,
+    setBestAutoBot: (value: number) => void,
+    setBestTeleopBot: (value: number) => void
 }) {
-    // Hacky solution to update the DragDropContext
     const [newKey, setNewKey] = useState(0);
-    const [branch, setBranch] = useState<Branches>("L4");
 
     useEffect(() => {
         if (!isStatic) {
-            setDraggedData(sortDataByStat(data, sortOrder as SortOrder, branch));
+            setDraggedData(sortDataByStat(data, sortOrder as SortOrder));
         }
         else {
             setDraggedData(data);
@@ -46,15 +48,14 @@ export default function Table({
     }, [sortOrder]);
 
     const [activeTeams, setActiveTeams] = useState<number[]>(data.map(value => value.teamNumber));
-    const [draggedData, setDraggedData] = useState<PicklistSchema2025[]>([]);
+    const [draggedData, setDraggedData] = useState<PicklistSchema2026[]>([]);
 
     useEffect(() => {
         setBestPick(bestOverallPick(draggedData, activeTeams));
-        setBestCoralBot(bestCoralBot(draggedData, activeTeams));
-        setBestAlgaeBot(bestAlgaeBot(draggedData, activeTeams));
+        setBestAutoBot(bestAutoBot(draggedData, activeTeams));
+        setBestTeleopBot(bestTeleopBot(draggedData, activeTeams));
     }, [newKey, draggedData, activeTeams]);
 
-    // Save teams to picklist 
     useEffect(() => {
         const saveData = async () => {
             const payload = {
@@ -72,7 +73,7 @@ export default function Table({
             });
 
             if (response.ok) {
-                setAlertInfo(["Success", "New picklist order saved successfully"]);
+                setAlertInfo(["Success", "New picklist notes & order saved successfully"]);
             }
         }
         
@@ -112,32 +113,12 @@ export default function Table({
                     />
                 </div>
                 <div className="flex flex-row items-center justify-between w-full ml-6 md:ml-16">
-                    <div className="w-[35vw] md:w-1/6">
+                    <div className="w-[35vw] md:w-1/4">
                         <p className="font-bold text-[12px] lg:text-[13px] xl:text-sm whitespace-nowrap ml-2 md:ml-0">Team Number</p>
                     </div>
                     {fields.map(name => (
-                        <div key={name} className={`${name.includes('[Branch]') ? 'w-[40vw]' : 'w-[35vw]'} md:w-1/6 ml-4 md:ml-0`}>
-                            {
-                                name.includes("[Branch]") ? (
-                                    <div className="flex flex-row w-3/5 md:w-full items-center gap-2">
-                                        <p className="font-bold text-[12px] whitespace-nowrap lg:text-[13px] xl:text-sm px-2 md:px-0"><span className="hidden md:inline-block">Total</span> Coral on</p>
-                                        <select 
-                                            id="branchChooser" 
-                                            className="w-[68px] h-9 md:h-10 rounded-md bg-white/10 outline outline-white/25 border-r-8 border-transparent text-white text-[13px] xl:text-sm font-bold p-1 md:p-2.5"
-                                            onChange={(event) => setBranch(event.target.value as Branches)}
-                                            defaultValue="L4">
-                                            <optgroup>
-                                                <option className="bg-slate-800">L1</option>
-                                                <option className="bg-slate-800">L2</option>
-                                                <option className="bg-slate-800">L3</option>
-                                                <option className="bg-slate-800">L4</option>
-                                            </optgroup>
-                                        </select>
-                                    </div>
-                                ) : (
-                                    <p className="font-bold text-[12px] whitespace-nowrap lg:text-[13px] xl:text-sm px-2 md:px-0">{name}</p>
-                                )
-                            }
+                        <div key={name} className="w-[35vw] md:w-1/4 ml-4 md:ml-0">
+                            <p className="font-bold text-[12px] whitespace-nowrap lg:text-[13px] xl:text-sm px-2 md:px-0">{name}</p>
                         </div>
                     ))}
                 </div>
@@ -165,7 +146,8 @@ export default function Table({
                                             <TableRow
                                                 key={datum.teamNumber}
                                                 data={datum}
-                                                selectedBranch={branch}
+                                                note={notes[datum.teamNumber] ?? ""}
+                                                onNoteChange={(note) => updateNote(datum.teamNumber, note)}
                                                 addTeam={addTeam}
                                                 removeTeam={removeTeam}
                                                 currentlyActive={activeTeams.includes(datum.teamNumber)}

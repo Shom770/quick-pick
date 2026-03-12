@@ -25,6 +25,7 @@ export default async function handler(
       await picklists.insertOne({
         name: body["picklistName"],
         data: body["data"],
+        notes: body["notes"] ?? {},
         static: false
       })
 
