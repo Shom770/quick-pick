@@ -181,7 +181,7 @@ export default function ImportCSVModal({
                             <DocumentArrowUpIcon className="w-9 h-9 text-gray-400" />
                             <div className="flex flex-col items-center gap-1">
                                 <p className="text-gray-300 text-sm font-medium">Drop a CSV here or click to browse</p>
-                                <p className="text-gray-600 text-xs">Must have a "Team Number" or "Team" column</p>
+                                <p className="text-gray-600 text-xs">Must have a &quot;Team Number&quot; or &quot;Team&quot; column</p>
                             </div>
                             <input
                                 ref={fileInputRef}
