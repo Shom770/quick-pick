@@ -26,6 +26,7 @@ export default async function handler(
         name: body["picklistName"],
         data: body["data"],
         notes: body["notes"] ?? {},
+        customColumns: body["customColumns"] ?? null,
         static: false
       })
 

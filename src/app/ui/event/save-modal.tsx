@@ -1,6 +1,6 @@
 "use client";
 
-import { Notes, PicklistSchema2026 } from "@/app/lib/types";
+import { CustomColumns, Notes, PicklistSchema2026 } from "@/app/lib/types";
 import { rethinkSans } from "@/app/ui/fonts";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
@@ -10,11 +10,13 @@ import { FormEvent, useState } from "react";
 export default function SaveModal({
     data,
     notes,
+    customColumns,
     setModalStatus, 
     setAlertInfo 
 } : { 
     data: PicklistSchema2026[],
     notes: Notes,
+    customColumns: CustomColumns | null,
     setModalStatus: (state: boolean) => void, 
     setAlertInfo: (state: [string, string]) => void
 }) {
@@ -32,7 +34,8 @@ export default function SaveModal({
         const payload = {
             picklistName,
             data,
-            notes
+            notes,
+            customColumns: customColumns ?? null
         };
 
         const response = await fetch("/api/savePicklist", {

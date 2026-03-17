@@ -8,7 +8,7 @@ export function sortDataByStat(data: PicklistSchema2026[], sortOrder: SortOrder)
     const sortOrderToPropertyName: Record<SortOrder, keyof PicklistSchema2026> = {
         "Total EPA": "totalEpa",
         "Auto Fuel": "autoFuel",
-        "Teleop + Endgame Fuel": "teleopAndEndgameFuel",
+        "Teleop Fuel": "teleopAndEndgameFuel",
         "Total Tower Points": "totalTowerPoints"
     }
 

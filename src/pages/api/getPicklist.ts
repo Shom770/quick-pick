@@ -1,12 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import clientPromise from '@/app/lib/database';
-import { Notes, PicklistSchema2026 } from '@/app/lib/types';
+import { CustomColumns, Notes, PicklistSchema2026 } from '@/app/lib/types';
  
 type ResponseData = {
   message: string
   data?: PicklistSchema2026[],
   static?: boolean,
-  notes?: Notes
+  notes?: Notes,
+  customColumns?: CustomColumns | null
 };
  
 export default async function handler(
@@ -30,7 +31,7 @@ export default async function handler(
       return res.status(404).json({ message: `Picklist of name '${name}' not found.`});
     }
     else {
-      return res.status(200).json({ message: "Picklist retrieved successfully.", data: requestedPicklist["data"], static: requestedPicklist["static"], notes: requestedPicklist["notes"] ?? {} });
+      return res.status(200).json({ message: "Picklist retrieved successfully.", data: requestedPicklist["data"], static: requestedPicklist["static"], notes: requestedPicklist["notes"] ?? {}, customColumns: requestedPicklist["customColumns"] ?? null });
     }
 
   }

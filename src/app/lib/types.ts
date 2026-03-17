@@ -29,10 +29,16 @@ export type PicklistSchema2026 = BasePicklistSchema & {
 
 export type Notes = Record<number, string>
 
+export type CustomColumns = {
+    headers: string[],
+    data: Record<string, Record<string, string>>,
+    columnOrder?: string[]  // full ordered list of all displayed columns (standard + custom)
+}
+
 export type SortOrder =
     "Total EPA" |
     "Auto Fuel" |
-    "Teleop + Endgame Fuel" |
+    "Teleop Fuel" |
     "Total Tower Points";
 
 export const emptySchema: PicklistSchema2026 = {

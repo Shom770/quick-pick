@@ -5,10 +5,11 @@ import { useState, useEffect, useRef, Suspense } from "react";
 import { rethinkSans } from "@/app/ui/fonts";
 import Table from "@/app/ui/event/table";
 import { fetchDataForTeams } from "@/app/lib/data";
-import { emptySchema, Notes, PicklistSchema2026 } from "@/app/lib/types";
+import { CustomColumns, emptySchema, Notes, PicklistSchema2026 } from "@/app/lib/types";
 import Summarizer from "@/app/ui/event/summarizer";
 import { SummarizerSkeleton, TableSkeleton } from "@/app/ui/skeletons";
 import SaveModal from "@/app/ui/event/save-modal";
+import ImportCSVModal from "@/app/ui/event/import-csv-modal";
 import clsx from "clsx";
 import Alert from "@/app/ui/alert";
 
@@ -21,6 +22,8 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
     const [notes, setNotes] = useState<Notes>({});
 
     const [isModalOpen, setModalStatus] = useState(false);
+    const [isImportOpen, setImportOpen] = useState(false);
+    const [customColumns, setCustomColumns] = useState<CustomColumns | null>(null);
     const [[alertType, alertMessage], setAlertInfo] = useState(["", ""]);
 
     const [timesSaved, setTimesSaved] = useState(0);
@@ -58,6 +61,7 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
                     else {
                         setData(content["data"]);
                         setNotes(content["notes"] ?? {});
+                        setCustomColumns(content["customColumns"] ?? null);
                     }
 
                     setStatic(content["static"] || false);
@@ -89,6 +93,21 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
         }
     };
 
+    const handleImportConfirm = async (cols: CustomColumns) => {
+        setCustomColumns(cols);
+        setImportOpen(false);
+        try {
+            await fetch('/api/updateCustomColumns', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: picklist_id, customColumns: cols })
+            });
+            setAlertInfo(["Success", `Imported ${cols.headers.length} custom column${cols.headers.length !== 1 ? 's' : ''}.`]);
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
     const [bestPick, setBestPick] = useState(emptySchema);
     const [bestAutoBotTeam, setBestAutoBot] = useState(0);
     const [bestTeleopBotTeam, setBestTeleopBot] = useState(0);
@@ -114,22 +133,27 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
                                 <optgroup>
                                     <option className="bg-slate-800">Total EPA</option>
                                     <option className="bg-slate-800">Auto Fuel</option>
-                                    <option className="bg-slate-800">Teleop + Endgame Fuel</option>
+                                    <option className="bg-slate-800">Teleop Fuel</option>
                                     <option className="bg-slate-800">Total Tower Points</option>
                                 </optgroup>
                             </select>
                         </form>
-                        <button 
-                            className="text-sm text-gray-500 underline font-medium mt-2 md:mt-3 bg-transparent"
-                            disabled>
-                            {picklist_id ? "Update picklist?" : "Save picklist?"}
-                        </button>
+                        <div className="flex items-center gap-3 mt-2 md:mt-3">
+                            <button className="text-sm text-gray-500 underline font-medium bg-transparent" disabled>
+                                {picklist_id ? "Update picklist?" : "Save picklist?"}
+                            </button>
+                            {picklist_id && (
+                                <button className="text-sm text-gray-500 underline font-medium bg-transparent" disabled>
+                                    Import Picklist?
+                                </button>
+                            )}
+                        </div>
                     </div>
                     <div></div>
                     <SummarizerSkeleton />
                 </div>
                 <div className="w-[95vw] md:w-5/6 h-[42%] md:h-1/2 mt-5 md:mt-12 ml-[5vw] md:ml-0">
-                    <TableSkeleton fields={["Total EPA", "Auto Fuel", "Teleop + Endgame Fuel", "Total Tower Points"]} rows={9}/>
+                    <TableSkeleton fields={["Total EPA", "Auto Fuel", "Teleop Fuel", "Total Tower Points"]} rows={9}/>
                 </div>
             </div>
         )
@@ -152,19 +176,35 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
                             onChange={(event) => setSortOrder(event.target.value)}
                             defaultValue="Total EPA"
                             disabled={isStatic}>
-                            <optgroup>
+                            <optgroup label="Standard">
                                 <option className="bg-slate-800">Total EPA</option>
                                 <option className="bg-slate-800">Auto Fuel</option>
-                                <option className="bg-slate-800">Teleop + Endgame Fuel</option>
+                                <option className="bg-slate-800">Teleop Fuel</option>
                                 <option className="bg-slate-800">Total Tower Points</option>
                             </optgroup>
+                            {customColumns && customColumns.headers.length > 0 && (
+                                <optgroup label="Custom">
+                                    {customColumns.headers.map(col => (
+                                        <option key={col} className="bg-slate-800">{col}</option>
+                                    ))}
+                                </optgroup>
+                            )}
                         </select>
                     </form>
-                    <button 
-                        className="text-sm text-blue-500 underline font-medium mt-2 md:mt-3 hover:text-blue-400 bg-transparent"
-                        onClick={() => picklist_id ? setTimesSaved(timesSaved + 1) : setModalStatus(true) }>
-                        {picklist_id ? "Update picklist?" : "Save picklist?"}
-                    </button>
+                    <div className="flex items-center gap-3 mt-2 md:mt-3">
+                        <button
+                            className="text-sm text-blue-500 underline font-medium hover:text-blue-400 bg-transparent"
+                            onClick={() => picklist_id ? setTimesSaved(timesSaved + 1) : setModalStatus(true)}>
+                            {picklist_id ? "Update picklist?" : "Save picklist?"}
+                        </button>
+                        {picklist_id && (
+                            <button
+                                className="text-sm text-blue-500 underline font-medium hover:text-blue-400 bg-transparent"
+                                onClick={() => setImportOpen(true)}>
+                                Import picklist?
+                            </button>
+                        )}
+                    </div>
                 </div>
                 <div></div>
                 <Summarizer bestPick={bestPick} bestAutoBot={bestAutoBotTeam} bestTeleopBot={bestTeleopBotTeam} />
@@ -172,21 +212,28 @@ function EventPage({ picklist_id } : { picklist_id?: string }) {
             <div className="w-[95vw] md:w-5/6 h-[42%] md:h-1/2 mt-5 md:mt-12 ml-[5vw] md:ml-0">
                 <Table
                     data={data}
-                    fields={["Total EPA", "Auto Fuel", "Teleop + Endgame Fuel", "Total Tower Points"]}
+                    fields={["Total EPA", "Auto Fuel", "Teleop Fuel", "Total Tower Points"]}
                     sortOrder={sortOrder}
                     isStatic={isStatic}
                     timesSaved={timesSaved}
                     picklistName={picklist_id}
                     notes={notes}
                     updateNote={updateNote}
+                    customColumns={customColumns}
                     setAlertInfo={setAlertInfo}
                     setBestPick={setBestPick} 
                     setBestAutoBot={setBestAutoBot}
                     setBestTeleopBot={setBestTeleopBot} />
             </div>
             <div className={isModalOpen ? '' : 'hidden'}>
-                <SaveModal data={data} notes={notes} setModalStatus={setModalStatus} setAlertInfo={setAlertInfo}/>
+                <SaveModal data={data} notes={notes} customColumns={customColumns} setModalStatus={setModalStatus} setAlertInfo={setAlertInfo}/>
             </div>
+            {isImportOpen && (
+                <ImportCSVModal
+                    onConfirm={handleImportConfirm}
+                    onClose={() => setImportOpen(false)}
+                />
+            )}
         </div>
     );
 }
